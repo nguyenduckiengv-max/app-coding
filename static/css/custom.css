@@ -1,0 +1,62 @@
+/* Custom styling for Dragon Judge Platform */
+
+/* Custom subtle dark scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #484f58;
+}
+
+/* Code fonts */
+code, pre, .font-mono {
+    font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.animate-pulse-subtle {
+    animation: pulseSubtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Monaco Editor Container Overrides */
+#monacoEditorContainer .monaco-editor {
+    padding-top: 4px;
+}
+
+#monacoEditorContainer .monaco-editor .margin {
+    background-color: #1a1e24 !important;
+}
+
+/* Tab active indicator */
+.left-tab-btn.active {
+    color: #f97316;
+    border-bottom-color: #f97316;
+}
+
+/* Console Tab active indicator */
+.console-tab-btn.active {
+    background-color: #30363d;
+    color: #f3f4f6;
+}
+
+/* KaTeX formula readability */
+.katex {
+    font-size: 1.05em;
+    color: #fef08a;
+}

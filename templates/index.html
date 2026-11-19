@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}Danh Sách Bài Tập - Bí Kíp Luyện Rồng Judge{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+
+    <!-- Hero / Header Banner -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-darkbg-850 via-darkbg-800 to-darkbg-850 border border-darkbg-700 p-6 sm:p-8 mb-8 shadow-xl">
+        <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none text-9xl select-none">
+            🐉
+        </div>
+        <div class="relative z-10 max-w-3xl">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-dragon-500/10 border border-dragon-500/20 text-orange-400 text-xs font-semibold mb-3">
+                <span>🔥 Tuyển tập 303 bài tập kinh điển</span>
+                <span>•</span>
+                <span>Codefun & Chuyên KHTN</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+                Hệ Thống Luyện Code <span class="bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">Bí Kíp Luyện Rồng</span>
+            </h1>
+            <p class="text-sm sm:text-base text-gray-300 mb-6 leading-relaxed">
+                Nền tảng chấm điểm tự động hỗ trợ <strong class="text-white">Python 3</strong> và <strong class="text-white">C (GCC 16)</strong>. Mỗi bài tập đều được thiết kế chuẩn mực với đầy đủ bộ 5 test cases bao quát: Test mẫu, Test biên và Stress test hiệu năng cao.
+            </p>
+
+            <!-- Quick stats bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-darkbg-700/60">
+                <div class="bg-darkbg-900/60 p-3 rounded-xl border border-darkbg-700">
+                    <span class="text-xs text-gray-400 block font-medium">Tổng số bài tập</span>
+                    <span class="text-2xl font-bold text-white font-mono">{{ stats.total_problems }}</span>
+                </div>
+                <div class="bg-darkbg-900/60 p-3 rounded-xl border border-darkbg-700">
+                    <span class="text-xs text-gray-400 block font-medium">Bài đã vượt qua</span>
+                    <span class="text-2xl font-bold text-emerald-400 font-mono">{{ stats.solved_problems }}</span>
+                </div>
+                <div class="bg-darkbg-900/60 p-3 rounded-xl border border-darkbg-700">
+                    <span class="text-xs text-gray-400 block font-medium">Tổng lượt nộp</span>
+                    <span class="text-2xl font-bold text-amber-400 font-mono">{{ stats.total_submissions }}</span>
+                </div>
+                <div class="bg-darkbg-900/60 p-3 rounded-xl border border-darkbg-700">
+                    <span class="text-xs text-gray-400 block font-medium">Tỉ lệ Accepted (AC)</span>
+                    <span class="text-2xl font-bold text-dragon-500 font-mono">{{ stats.ac_rate }}%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls: Filter & Search Bar -->
+    <div class="bg-darkbg-850 p-4 rounded-xl border border-darkbg-700 mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+        <!-- Search Input -->
+        <div class="relative w-full md:w-80">
+            <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="searchInput" placeholder="Tìm theo tên bài hoặc mã..."
+                class="w-full pl-9 pr-4 py-2 bg-darkbg-900 border border-darkbg-700 rounded-lg text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-dragon-500 transition">
+        </div>
+
+        <!-- Filter Dropdowns -->
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <!-- Chapter Filter -->
+            <select id="chapterFilter" class="px-3 py-2 bg-darkbg-900 border border-darkbg-700 rounded-lg text-xs font-medium text-gray-300 focus:outline-none focus:border-dragon-500">
+                <option value="ALL">Tất cả các chương</option>
+                {% for ch in chapters %}
+                <option value="{{ ch }}">{{ ch }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Difficulty Filter -->
+            <select id="diffFilter" class="px-3 py-2 bg-darkbg-900 border border-darkbg-700 rounded-lg text-xs font-medium text-gray-300 focus:outline-none focus:border-dragon-500">
+                <option value="ALL">Độ khó: Tất cả</option>
+                <option value="Dễ">Dễ</option>
+                <option value="Trung bình">Trung bình</option>
+                <option value="Khó">Khó</option>
+            </select>
+
+            <!-- Status Filter -->
+            <select id="statusFilter" class="px-3 py-2 bg-darkbg-900 border border-darkbg-700 rounded-lg text-xs font-medium text-gray-300 focus:outline-none focus:border-dragon-500">
+                <option value="ALL">Trạng thái: Tất cả</option>
+                <option value="SOLVED">Đã giải (AC)</option>
+                <option value="ATTEMPTED">Đang làm</option>
+                <option value="TODO">Chưa giải</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Problems Table -->
+    <div class="bg-darkbg-850 rounded-xl border border-darkbg-700 overflow-hidden shadow-lg">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm" id="problemTable">
+                <thead class="bg-darkbg-800/80 text-xs text-gray-400 uppercase tracking-wider border-b border-darkbg-700">
+                    <tr>
+                        <th class="py-3.5 px-4 w-12 text-center">Trạng thái</th>
+                        <th class="py-3.5 px-4 w-28">Mã bài</th>
+                        <th class="py-3.5 px-6">Tên bài toán & Phân loại</th>
+                        <th class="py-3.5 px-4 text-center">Độ khó</th>
+                        <th class="py-3.5 px-4 text-center">Bộ Test</th>
+                        <th class="py-3.5 px-4 text-center">Điểm cao nhất</th>
+                        <th class="py-3.5 px-6 text-right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-darkbg-700" id="problemListBody">
+                    {% for prob in problems %}
+                    <tr class="problem-row hover:bg-darkbg-800/50 transition-colors group"
+                        data-id="{{ prob.id }}"
+                        data-title="{{ prob.title | lower }}"
+                        data-chapter="{{ prob.chapter }}"
+                        data-difficulty="{{ prob.difficulty }}"
+                        data-status="{{ prob.user_status }}">
+                        
+                        <!-- Status Icon -->
+                        <td class="py-4 px-4 text-center">
+                            {% if prob.user_status == 'SOLVED' %}
+                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30" title="Đã giải thành công 100/100">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </span>
+                            {% elif prob.user_status == 'ATTEMPTED' %}
+                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30" title="Đã nộp nhưng chưa hoàn hảo">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-darkbg-700 text-gray-500" title="Chưa làm">
+                                <i data-lucide="circle" class="w-3.5 h-3.5"></i>
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Problem ID -->
+                        <td class="py-4 px-4 font-mono font-semibold text-xs text-orange-400">
+                            {{ prob.id }}
+                        </td>
+
+                        <!-- Title and Chapter -->
+                        <td class="py-4 px-6">
+                            <a href="{{ url_for('problem_detail', problem_id=prob.id) }}" class="font-bold text-gray-100 hover:text-dragon-500 transition-colors block text-base group-hover:translate-x-1 duration-150">
+                                {{ prob.title }}
+                            </a>
+                            <span class="text-xs text-gray-400 flex items-center space-x-1 mt-0.5">
+                                <i data-lucide="tag" class="w-3 h-3 text-gray-500"></i>
+                                <span>{{ prob.chapter }}</span>
+                            </span>
+                        </td>
+
+                        <!-- Difficulty -->
+                        <td class="py-4 px-4 text-center">
+                            {% if prob.difficulty == 'Dễ' %}
+                            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dễ</span>
+                            {% elif prob.difficulty == 'Trung bình' %}
+                            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Trung bình</span>
+                            {% else %}
+                            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">Khó</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Test Cases count -->
+                        <td class="py-4 px-4 text-center font-mono text-xs text-gray-400">
+                            <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded bg-darkbg-900 border border-darkbg-700">
+                                <i data-lucide="cpu" class="w-3 h-3 text-cyan-400"></i>
+                                <span>{{ prob.test_case_count }} tests</span>
+                            </span>
+                        </td>
+
+                        <!-- Best Score -->
+                        <td class="py-4 px-4 text-center font-mono">
+                            {% if prob.best_score is not none %}
+                                {% if prob.best_score == 100 %}
+                                <span class="font-bold text-emerald-400">100 / 100</span>
+                                {% else %}
+                                <span class="font-semibold text-amber-400">{{ prob.best_score }} / 100</span>
+                                {% endif %}
+                            {% else %}
+                            <span class="text-gray-500">-</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Actions -->
+                        <td class="py-4 px-6 text-right">
+                            <a href="{{ url_for('problem_detail', problem_id=prob.id) }}"
+                               class="inline-flex items-center space-x-1 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-darkbg-700 hover:bg-dragon-600 text-gray-200 hover:text-white transition shadow group-hover:bg-dragon-600">
+                                <span>{% if prob.user_status == 'SOLVED' %}Luyện lại{% else %}Luyện bài{% endif %}</span>
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty state -->
+        <div id="noProblemFound" class="hidden py-12 text-center text-gray-400">
+            <i data-lucide="inbox" class="w-10 h-10 mx-auto text-gray-600 mb-2"></i>
+            <p class="text-sm">Không tìm thấy bài tập nào phù hợp với bộ lọc.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Filtering and Search Script
+    const searchInput = document.getElementById('searchInput');
+    const chapterFilter = document.getElementById('chapterFilter');
+    const diffFilter = document.getElementById('diffFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const rows = document.querySelectorAll('.problem-row');
+    const emptyState = document.getElementById('noProblemFound');
+
+    function filterProblems() {
+        const query = searchInput.value.trim().toLowerCase();
+        const chapter = chapterFilter.value;
+        const diff = diffFilter.value;
+        const status = statusFilter.value;
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const id = row.getAttribute('data-id').toLowerCase();
+            const title = row.getAttribute('data-title');
+            const rowChapter = row.getAttribute('data-chapter');
+            const rowDiff = row.getAttribute('data-difficulty');
+            const rowStatus = row.getAttribute('data-status');
+
+            const matchQuery = !query || id.includes(query) || title.includes(query);
+            const matchChapter = (chapter === 'ALL') || (rowChapter === chapter);
+            const matchDiff = (diff === 'ALL') || (rowDiff === diff);
+            const matchStatus = (status === 'ALL') || (rowStatus === status);
+
+            if (matchQuery && matchChapter && matchDiff && matchStatus) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        if (visibleCount === 0) {
+            emptyState.classList.remove('hidden');
+        } else {
+            emptyState.classList.add('hidden');
+        }
+    }
+
+    searchInput.addEventListener('input', filterProblems);
+    chapterFilter.addEventListener('change', filterProblems);
+    diffFilter.addEventListener('change', filterProblems);
+    statusFilter.addEventListener('change', filterProblems);
+</script>
+{% endblock %}

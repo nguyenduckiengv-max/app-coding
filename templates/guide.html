@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Bí Kíp & Hướng Dẫn Kỹ Thuật - Bí Kíp Luyện Rồng Judge{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full space-y-10">
+
+    <!-- Header Section -->
+    <div class="border-b border-darkbg-700 pb-6">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-dragon-500/10 border border-dragon-500/20 text-orange-400 text-xs font-semibold mb-3">
+            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            <span>Tài Liệu Hướng Dẫn & Kiến Trúc Hệ Thống</span>
+        </div>
+        <h1 class="text-3xl font-extrabold text-white tracking-tight">
+            Hướng Dẫn Quản Trị & Phát Triển Nền Tảng
+        </h1>
+        <p class="text-sm text-gray-300 mt-2 leading-relaxed">
+            Hệ thống chấm điểm cá nhân mô phỏng LeetCode / HackerRank / Codefun dành cho bộ bài tập "Bí kíp luyện rồng".
+        </p>
+    </div>
+
+    <!-- Quick Reload Card -->
+    <div class="bg-darkbg-850 p-5 rounded-xl border border-darkbg-700 flex flex-col sm:flex-row items-center justify-between gap-4 shadow">
+        <div>
+            <h3 class="text-sm font-bold text-white flex items-center space-x-1.5">
+                <i data-lucide="refresh-cw" class="w-4 h-4 text-cyan-400"></i>
+                <span>Đồng bộ dữ liệu bài tập (Hot Reload)</span>
+            </h3>
+            <p class="text-xs text-gray-400 mt-1">Khi bạn chỉnh sửa hoặc thêm bài mới vào file <code class="text-orange-400 bg-darkbg-900 px-1 py-0.5 rounded">data/problems.json</code>, nhấn nút này để cập nhật ngay vào cơ sở dữ liệu.</p>
+        </div>
+        <button onclick="reloadProblemsData()" id="btnReloadProblems"
+            class="px-4 py-2 rounded-lg text-xs font-bold bg-darkbg-700 hover:bg-cyan-600 text-white transition flex items-center space-x-1.5 whitespace-nowrap border border-darkbg-600">
+            <i data-lucide="database" class="w-3.5 h-3.5"></i>
+            <span>Cập Nhật Vào Database</span>
+        </button>
+    </div>
+
+    <!-- Section 1: Adding New Problem -->
+    <div class="bg-darkbg-850 p-6 rounded-2xl border border-darkbg-700 space-y-4">
+        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+            <span class="w-7 h-7 rounded-lg bg-dragon-600 text-white flex items-center justify-center text-xs font-mono">1</span>
+            <span>Cách Thêm Một Bài Tập Mới Từ "Bí Kíp Luyện Rồng"</span>
+        </h2>
+        <p class="text-xs text-gray-300 leading-relaxed">
+            Mở tệp tin <code class="text-orange-400 font-mono">data/problems.json</code> và thêm một object mới vào danh sách <code class="text-emerald-400 font-mono">"problems"</code> theo cấu trúc chuẩn dưới đây:
+        </p>
+
+        <!-- JSON Example Codeblock -->
+        <div class="bg-darkbg-900 rounded-xl p-4 border border-darkbg-700 overflow-x-auto text-xs font-mono text-gray-300">
+<pre>{
+  "id": "DRAGON-09",
+  "title": "Tên bài toán mới (Ví dụ: Tổng Dãy Số)",
+  "chapter": "Phần I. Nhập - Xuất cơ bản",
+  "difficulty": "Dễ",  // "Dễ" | "Trung bình" | "Khó"
+  "time_limit": 1.5,
+  "memory_limit": 256,
+  "description": "Mô tả chi tiết đề bài toán...",
+  "input_format": "Mô tả dữ liệu vào (stdin)...",
+  "output_format": "Mô tả dữ liệu ra (stdout)...",
+  "constraints": "Ràng buộc giá trị dữ liệu...",
+  "sample_input": "10\n",
+  "sample_output": "55\n",
+  "hints": "Gợi ý thuật toán hoặc lưu ý bẫy...",
+  "python_starter": "# Code mẫu khởi đầu Python\nimport sys\n...",
+  "c_starter": "// Code mẫu khởi đầu C\n#include <stdio.h>\n...",
+  "test_cases": [
+    // BẮT BUỘC TỐI THIỂU 5 TEST CASES
+    {
+      "test_index": 1,
+      "is_sample": true,
+      "description": "Test cơ bản 1 (Mẫu)",
+      "input_data": "10\n",
+      "expected_output": "55\n"
+    },
+    {
+      "test_index": 2,
+      "is_sample": true,
+      "description": "Test cơ bản 2 (Mẫu)",
+      "input_data": "1\n",
+      "expected_output": "1\n"
+    },
+    {
+      "test_index": 3,
+      "is_sample": false,
+      "description": "Test biên (Giá trị nhỏ nhất / số 0 / số âm)",
+      "input_data": "0\n",
+      "expected_output": "0\n"
+    },
+    {
+      "test_index": 4,
+      "is_sample": false,
+      "description": "Test hiệu năng / Corner case",
+      "input_data": "1000\n",
+      "expected_output": "500500\n"
+    },
+    {
+      "test_index": 5,
+      "is_sample": false,
+      "description": "Stress test dữ liệu lớn (Kiểm tra tràn số 64-bit / TLE)",
+      "input_data": "1000000000\n",
+      "expected_output": "500000000500000000\n"
+    }
+  ]
+}</pre>
+        </div>
+    </div>
+
+    <!-- Section 2: Test Case Design Standard -->
+    <div class="bg-darkbg-850 p-6 rounded-2xl border border-darkbg-700 space-y-4">
+        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+            <span class="w-7 h-7 rounded-lg bg-amber-600 text-white flex items-center justify-center text-xs font-mono">2</span>
+            <span>Quy Chuẩn Thiết Kế Bộ 5 Test Cases Bắt Buộc</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <!-- Box 1 -->
+            <div class="bg-darkbg-900 p-4 rounded-xl border border-darkbg-700 space-y-2">
+                <div class="font-bold text-emerald-400 flex items-center space-x-1.5">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    <span>Test 1 & Test 2: Cơ Bản</span>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                    Khớp hoàn toàn với ví dụ mẫu trong đề bài sách "Bí kíp luyện rồng". Giúp người học làm quen và xác nhận đọc/ghi đúng định dạng vào/ra.
+                </p>
+            </div>
+
+            <!-- Box 2 -->
+            <div class="bg-darkbg-900 p-4 rounded-xl border border-darkbg-700 space-y-2">
+                <div class="font-bold text-amber-400 flex items-center space-x-1.5">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                    <span>Test 3: Giá Trị Biên</span>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                    Kiểm tra các trường hợp đặc biệt: số $0$, số âm, mảng rỗng, chuỗi chỉ có $1$ ký tự, hoặc giá trị $N = 1$. Rèn luyện tư duy chặt chẽ tránh lỗi chia cho $0$ hoặc truy cập ngoài vùng nhớ.
+                </p>
+            </div>
+
+            <!-- Box 3 -->
+            <div class="bg-darkbg-900 p-4 rounded-xl border border-darkbg-700 space-y-2">
+                <div class="font-bold text-rose-400 flex items-center space-x-1.5">
+                    <i data-lucide="zap" class="w-4 h-4"></i>
+                    <span>Test 4 & 5: Stress Test</span>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                    Kiểm tra dữ liệu cực đại ($N = 10^9$, mảng $10^5$). Đánh giá độ phức tạp thời gian thuật toán (tránh $O(2^N)$ hay $O(N^2)$ bị TLE) và tràn số kiểu 32-bit (bắt buộc dùng `long long` trong C).
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Judge Engine & Sandbox -->
+    <div class="bg-darkbg-850 p-6 rounded-2xl border border-darkbg-700 space-y-4">
+        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+            <span class="w-7 h-7 rounded-lg bg-cyan-600 text-white flex items-center justify-center text-xs font-mono">3</span>
+            <span>Cơ Chế Chấm Điểm & Sandbox Bảo Mật</span>
+        </h2>
+
+        <div class="space-y-3 text-xs text-gray-300 leading-relaxed">
+            <div class="p-3 bg-darkbg-900 rounded-lg border border-darkbg-700">
+                <strong class="text-white">Biên dịch C:</strong> Tự động gọi <code class="text-cyan-400">gcc -O2 -std=c11 -Wall</code> để sinh file nhị phân. Nếu có lỗi cú pháp, trả về ngay trạng thái <span class="text-purple-400 font-bold font-mono">CE (Compilation Error)</span> cùng chi tiết dòng lỗi của trình biên dịch.
+            </div>
+            <div class="p-3 bg-darkbg-900 rounded-lg border border-darkbg-700">
+                <strong class="text-white">Thực thi Python:</strong> Chạy trực tiếp qua <code class="text-cyan-400">python -u</code> với cơ chế đệm tắt (unbuffered) để bắt trọn vẹn đầu ra theo thời gian thực.
+            </div>
+            <div class="p-3 bg-darkbg-900 rounded-lg border border-darkbg-700">
+                <strong class="text-white">Chuẩn hóa đầu ra (Output Normalization):</strong> Tự động loại bỏ khoảng trắng thừa cuối mỗi dòng (trailing spaces) và xử lý sự khác biệt giữa ký tự xuống dòng Windows (<code class="text-yellow-400">\r\n</code>) và Linux (<code class="text-yellow-400">\n</code>).
+            </div>
+            <div class="p-3 bg-darkbg-900 rounded-lg border border-darkbg-700">
+                <strong class="text-white">Sandbox bảo mật:</strong>
+                <ul class="list-disc list-inside mt-1.5 space-y-1 text-gray-400">
+                    <li>Python: Phân tích cú pháp trừu tượng (AST) để chặn các module hệ thống nguy hiểm (<code class="text-rose-400">os, subprocess, sys, socket, shutil, eval, exec</code>).</li>
+                    <li>C: Quét mã nguồn chặn các thư viện mạng và hàm gọi lệnh hệ thống (<code class="text-rose-400">windows.h, winsock.h, unistd.h, system(), popen(), fork()</code>).</li>
+                    <li>Thời gian thực thi tối đa 1.5 giây mỗi test case (<code class="text-amber-400">TLE - Time Limit Exceeded</code>).</li>
+                    <li>Thực thi trong thư mục tạm cô lập và tự động dọn sạch sau mỗi lượt chấm.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    async function reloadProblemsData() {
+        const btn = document.getElementById('btnReloadProblems');
+        btn.disabled = true;
+        btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i><span>Đang nạp lại...</span>`;
+        lucide.createIcons();
+
+        try {
+            const res = await fetch('/api/admin/reload-problems', { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                alert('✅ ' + data.message);
+                window.location.href = '/';
+            } else {
+                alert('❌ Lỗi: ' + data.error);
+            }
+        } catch (err) {
+            alert('❌ Không thể kết nối tới server: ' + err);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `<i data-lucide="database" class="w-3.5 h-3.5"></i><span>Cập Nhật Vào Database</span>`;
+            lucide.createIcons();
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,3 @@
+The task involves number base conversion and array partitioning. The first two sub-problems require converting between decimal and binary representations. The third requires segmenting an array such that each segment sums to the same value.
+
+

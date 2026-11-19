@@ -1,0 +1,3 @@
+Considering the problem descriptions on page 18, it seems to involve simple number manipulation tasks. The first requires calculating the sum of digits of a given positive integer. The second involves computing the average of the digits. Finally, the third task requires determining the number of trailing zeros in the factorial of a given positive integer.
+
+

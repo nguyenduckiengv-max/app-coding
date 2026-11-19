@@ -1,0 +1,3 @@
+Analyzing problem descriptions. "ĐẾM #1" requires counting perfect squares up to n, "ĐẾM #2" counts primes up to n, and "ĐẾM #3" counts perfect squares within an input array. Considering the input ranges for ĐẾM #1 and ĐẾM #2, an efficient algorithm will be crucial to avoid timeouts. The input description for "ĐẾM #3" is incomplete, specifying the array size but not the array itself; assuming the array is also provided.
+
+

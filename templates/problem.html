@@ -1,0 +1,493 @@
+{% extends "base.html" %}
+
+{% block title %}[{{ problem.id }}] {{ problem.title }} - Bí Kíp Luyện Rồng Judge{% endblock %}
+
+{% block extra_head %}
+<!-- Monaco Editor Loader -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="flex-1 flex flex-col h-[calc(100vh-3.5rem)] overflow-hidden">
+    <!-- Sub-header bar -->
+    <div class="h-10 bg-darkbg-850 border-b border-darkbg-700 px-4 flex items-center justify-between text-xs text-gray-400">
+        <div class="flex items-center space-x-2">
+            <a href="{{ url_for('index') }}" class="hover:text-gray-200 flex items-center space-x-1">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                <span>Tất cả bài tập</span>
+            </a>
+            <span>/</span>
+            <span class="font-mono text-orange-400 font-semibold">{{ problem.id }}</span>
+            <span>-</span>
+            <span class="text-gray-200 font-medium truncate max-w-xs">{{ problem.title }}</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span class="flex items-center space-x-1">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-gray-500"></i>
+                <span>{{ problem.time_limit }}s</span>
+            </span>
+            <span class="flex items-center space-x-1">
+                <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-gray-500"></i>
+                <span>{{ problem.memory_limit }}MB</span>
+            </span>
+            <button onclick="switchLeftTab('solution')" class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center space-x-1">
+                <i data-lucide="award" class="w-3 h-3"></i>
+                <span>Xem Solution</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 2-Pane Split Container -->
+    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- ==================== LEFT PANE: Problem Description, History & Solution ==================== -->
+        <div class="w-full lg:w-1/2 flex flex-col border-b lg:border-b-0 lg:border-r border-darkbg-700 bg-darkbg-900 overflow-hidden">
+            <!-- Left Tabs Header -->
+            <div class="flex items-center border-b border-darkbg-700 bg-darkbg-850 px-3 overflow-x-auto">
+                <button id="tabDescBtn" onclick="switchLeftTab('desc')"
+                    class="left-tab-btn active px-3.5 py-2.5 text-xs font-semibold flex items-center space-x-1.5 border-b-2 border-dragon-500 text-dragon-500 whitespace-nowrap transition">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                    <span>Đề Bài</span>
+                </button>
+                <button id="tabSubBtn" onclick="switchLeftTab('sub')"
+                    class="left-tab-btn px-3.5 py-2.5 text-xs font-semibold flex items-center space-x-1.5 border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap transition">
+                    <i data-lucide="history" class="w-3.5 h-3.5"></i>
+                    <span>Lịch Sử Nộp Bài</span>
+                </button>
+                <button id="tabHintBtn" onclick="switchLeftTab('hint')"
+                    class="left-tab-btn px-3.5 py-2.5 text-xs font-semibold flex items-center space-x-1.5 border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap transition">
+                    <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <span>Gợi Ý</span>
+                </button>
+                <button id="tabSolutionBtn" onclick="switchLeftTab('solution')"
+                    class="left-tab-btn px-3.5 py-2.5 text-xs font-semibold flex items-center space-x-1.5 border-b-2 border-transparent text-emerald-400 hover:text-emerald-300 whitespace-nowrap transition">
+                    <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                    <span>Lời Giải (Solution)</span>
+                </button>
+            </div>
+
+            <!-- Left Tab Content Area (Scrollable) -->
+            <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6 text-sm text-gray-300">
+                
+                <!-- TAB 1: Problem Description -->
+                <div id="tabDescContent" class="space-y-6">
+                    <!-- Title & Meta -->
+                    <div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xs font-mono font-bold text-orange-400 px-2 py-0.5 rounded bg-dragon-500/10 border border-dragon-500/20">{{ problem.id }}</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 rounded-full
+                                {% if problem.difficulty == 'Dễ' %}bg-emerald-500/10 text-emerald-400 border border-emerald-500/20
+                                {% elif problem.difficulty == 'Trung bình' %}bg-amber-500/10 text-amber-400 border border-amber-500/20
+                                {% else %}bg-rose-500/10 text-rose-400 border border-rose-500/20{% endif %}">
+                                {{ problem.difficulty }}
+                            </span>
+                            <span class="text-xs text-gray-400">{{ problem.chapter }}</span>
+                        </div>
+                        <h1 class="text-2xl font-extrabold text-white">{{ problem.title }}</h1>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="prose prose-invert max-w-none">
+                        <div class="text-gray-200 leading-relaxed whitespace-pre-line">{{ problem.description }}</div>
+                    </div>
+
+                    <!-- Input Format -->
+                    <div class="space-y-2">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-orange-400 flex items-center space-x-1.5">
+                            <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+                            <span>Định Dạng Đầu Vào (Input)</span>
+                        </h3>
+                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs font-mono leading-relaxed whitespace-pre-line">
+{{ problem.input_format }}
+                        </div>
+                    </div>
+
+                    <!-- Output Format -->
+                    <div class="space-y-2">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-orange-400 flex items-center space-x-1.5">
+                            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                            <span>Định Dạng Đầu Ra (Output)</span>
+                        </h3>
+                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs font-mono leading-relaxed whitespace-pre-line">
+{{ problem.output_format }}
+                        </div>
+                    </div>
+
+                    <!-- Constraints -->
+                    <div class="space-y-2">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-orange-400 flex items-center space-x-1.5">
+                            <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+                            <span>Ràng Buộc (Constraints)</span>
+                        </h3>
+                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs font-mono leading-relaxed whitespace-pre-line">
+{{ problem.constraints }}
+                        </div>
+                    </div>
+
+                    <!-- Sample Cases -->
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-orange-400 flex items-center space-x-1.5">
+                            <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+                            <span>Ví Dụ Mẫu (Sample Test)</span>
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <!-- Sample Input -->
+                            <div class="bg-darkbg-850 rounded-lg border border-darkbg-700 overflow-hidden">
+                                <div class="bg-darkbg-800 px-3 py-1.5 flex items-center justify-between text-xs text-gray-400 font-semibold border-b border-darkbg-700">
+                                    <span>Sample Input</span>
+                                    <button onclick="copyToClipboard('sampleInputVal')" title="Sao chép" class="hover:text-white transition">
+                                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                </div>
+                                <pre id="sampleInputVal" class="p-3 text-xs font-mono text-emerald-400 overflow-x-auto">{{ problem.sample_input }}</pre>
+                            </div>
+
+                            <!-- Sample Output -->
+                            <div class="bg-darkbg-850 rounded-lg border border-darkbg-700 overflow-hidden">
+                                <div class="bg-darkbg-800 px-3 py-1.5 flex items-center justify-between text-xs text-gray-400 font-semibold border-b border-darkbg-700">
+                                    <span>Sample Output</span>
+                                    <button onclick="copyToClipboard('sampleOutputVal')" title="Sao chép" class="hover:text-white transition">
+                                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                </div>
+                                <pre id="sampleOutputVal" class="p-3 text-xs font-mono text-amber-400 overflow-x-auto">{{ problem.sample_output }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Submission History -->
+                <div id="tabSubContent" class="hidden space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-bold text-white flex items-center space-x-2">
+                            <i data-lucide="history" class="w-4 h-4 text-orange-400"></i>
+                            <span>Lịch Sử Nộp Bài Của Bạn</span>
+                        </h2>
+                        <button onclick="reloadSubmissions()" class="text-xs text-gray-400 hover:text-white flex items-center space-x-1">
+                            <i data-lucide="rotate-cw" class="w-3 h-3"></i>
+                            <span>Làm mới</span>
+                        </button>
+                    </div>
+
+                    <div id="submissionListContainer" class="space-y-2">
+                        {% if submissions %}
+                            {% for sub in submissions %}
+                            <div class="bg-darkbg-850 p-3 rounded-lg border border-darkbg-700 flex items-center justify-between text-xs hover:border-darkbg-600 transition">
+                                <div class="flex items-center space-x-3">
+                                    {% if sub.status == 'AC' %}
+                                    <span class="px-2 py-0.5 rounded font-bold font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">AC</span>
+                                    {% elif sub.status == 'WA' %}
+                                    <span class="px-2 py-0.5 rounded font-bold font-mono bg-rose-500/10 text-rose-400 border border-rose-500/30">WA</span>
+                                    {% elif sub.status == 'TLE' %}
+                                    <span class="px-2 py-0.5 rounded font-bold font-mono bg-amber-500/10 text-amber-400 border border-amber-500/30">TLE</span>
+                                    {% elif sub.status == 'CE' %}
+                                    <span class="px-2 py-0.5 rounded font-bold font-mono bg-purple-500/10 text-purple-400 border border-purple-500/30">CE</span>
+                                    {% else %}
+                                    <span class="px-2 py-0.5 rounded font-bold font-mono bg-red-500/10 text-red-400 border border-red-500/30">{{ sub.status }}</span>
+                                    {% endif %}
+                                    <div class="text-gray-300">
+                                        <span class="font-semibold text-white">{{ sub.score }}/100 điểm</span>
+                                        <span class="text-gray-500">({{ sub.passed_count }}/{{ sub.total_count }} tests)</span>
+                                    </div>
+                                </div>
+                                <div class="text-right text-gray-400">
+                                    <div class="font-mono text-[11px] text-gray-300 uppercase">{{ sub.language }} • {{ sub.max_time_ms }}ms</div>
+                                    <div class="text-[10px] text-gray-500">{{ sub.created_at }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center py-8 text-gray-500 text-xs">
+                                Bạn chưa nộp lần nào cho bài toán này. Hãy viết code và bấm "Nộp bài"!
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- TAB 3: Hints -->
+                <div id="tabHintContent" class="hidden space-y-4">
+                    <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs leading-relaxed space-y-2">
+                        <div class="font-bold flex items-center space-x-1.5 text-amber-400 text-sm">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            <span>Bí Kíp Gợi Ý Nhanh</span>
+                        </div>
+                        <p class="whitespace-pre-line text-gray-300 text-xs">{{ problem.hints if problem.hints else 'Không có bí kíp đặc biệt cho bài toán này. Hãy tự tin giải quyết!' }}</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-darkbg-850 border border-darkbg-700 text-xs text-gray-400 space-y-2">
+                        <div class="font-bold text-gray-300 text-xs flex items-center space-x-1">
+                            <i data-lucide="info" class="w-3.5 h-3.5 text-blue-400"></i>
+                            <span>Lưu ý về bộ 5 Test Cases của hệ thống:</span>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400 pl-1">
+                            <li><strong class="text-gray-300">Test 1 & 2:</strong> Test cơ bản dựa trên các ví dụ mẫu.</li>
+                            <li><strong class="text-gray-300">Test 3:</strong> Test giá trị biên (số 0, số âm, 1 phần tử, xâu đối xứng).</li>
+                            <li><strong class="text-gray-300">Test 4 & 5:</strong> Stress test với giá trị lớn nhất (10^9) và kiểm soát thời gian chạy.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Official Solution & Editorial (HackerRank Style) -->
+                <div id="tabSolutionContent" class="hidden space-y-6">
+                    <!-- Locked Gate (Only shown when not unlocked) -->
+                    <div id="solutionLockGate" class="p-8 rounded-2xl bg-darkbg-850 border border-darkbg-700 text-center space-y-4 shadow-xl">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                            <i data-lucide="lock" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Khu Vực Lời Giải Chính Thức (Solution)</h3>
+                        <p class="text-xs text-gray-400 max-w-md mx-auto leading-relaxed">
+                            Hệ thống khuyến khích bạn tự tư duy và nộp bài (Submit) ít nhất một lần để rèn luyện kỹ năng lập trình. Lời giải sẽ tự động mở khóa sau khi bạn nộp bài, hoặc bạn có thể chọn mở khóa ngay tại đây.
+                        </p>
+                        <div class="pt-2 flex justify-center gap-3">
+                            <button onclick="unlockSolution(true)" class="px-5 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-lg shadow-emerald-900/30 transition flex items-center space-x-1.5">
+                                <i data-lucide="key" class="w-3.5 h-3.5"></i>
+                                <span>Mở Khóa Lời Giải Ngay</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Unlocked Solution Container -->
+                    <div id="solutionUnlockedArea" class="hidden space-y-6">
+                        <!-- Editorial Box -->
+                        <div class="p-5 rounded-xl bg-darkbg-850 border border-darkbg-700 space-y-3">
+                            <div class="flex items-center space-x-2 text-emerald-400 font-bold text-sm">
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                                <span>Ý Tưởng Thuật Toán & Phân Tích (Editorial)</span>
+                            </div>
+                            <div id="editorialText" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line prose prose-invert max-w-none">
+                                {{ problem.editorial if problem.editorial else 'Đang cập nhật bài viết phân tích chi tiết...' }}
+                            </div>
+                        </div>
+
+                        <!-- Solution Source Codes -->
+                        <div class="space-y-4">
+                            <!-- Python Solution -->
+                            <div class="rounded-xl bg-darkbg-850 border border-darkbg-700 overflow-hidden shadow">
+                                <div class="bg-darkbg-800 px-4 py-2 flex items-center justify-between border-b border-darkbg-700">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                                        <span class="text-xs font-bold font-mono text-cyan-300">Python 3 Solution</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="copyToClipboard('pythonSolutionCode')" title="Sao chép lời giải"
+                                            class="text-xs text-gray-400 hover:text-white flex items-center space-x-1 px-2 py-0.5 rounded bg-darkbg-700 hover:bg-darkbg-600 transition">
+                                            <i data-lucide="copy" class="w-3 h-3"></i>
+                                            <span>Copy</span>
+                                        </button>
+                                        <button onclick="applySolutionToEditor('python3')" title="Nạp vào Editor"
+                                            class="text-xs text-emerald-400 hover:text-white flex items-center space-x-1 px-2 py-0.5 rounded bg-emerald-500/10 hover:bg-emerald-500/30 transition">
+                                            <i data-lucide="play" class="w-3 h-3"></i>
+                                            <span>Thử code này</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <pre id="pythonSolutionCode" class="p-4 text-xs font-mono text-cyan-200 overflow-x-auto leading-relaxed bg-[#1e1e1e]">{{ problem.solution_python if problem.solution_python else '# Chưa có solution' }}</pre>
+                            </div>
+
+                            <!-- C Solution -->
+                            <div class="rounded-xl bg-darkbg-850 border border-darkbg-700 overflow-hidden shadow">
+                                <div class="bg-darkbg-800 px-4 py-2 flex items-center justify-between border-b border-darkbg-700">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span>
+                                        <span class="text-xs font-bold font-mono text-orange-300">C (GCC) Solution</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="copyToClipboard('cSolutionCode')" title="Sao chép lời giải"
+                                            class="text-xs text-gray-400 hover:text-white flex items-center space-x-1 px-2 py-0.5 rounded bg-darkbg-700 hover:bg-darkbg-600 transition">
+                                            <i data-lucide="copy" class="w-3 h-3"></i>
+                                            <span>Copy</span>
+                                        </button>
+                                        <button onclick="applySolutionToEditor('c')" title="Nạp vào Editor"
+                                            class="text-xs text-emerald-400 hover:text-white flex items-center space-x-1 px-2 py-0.5 rounded bg-emerald-500/10 hover:bg-emerald-500/30 transition">
+                                            <i data-lucide="play" class="w-3 h-3"></i>
+                                            <span>Thử code này</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <pre id="cSolutionCode" class="p-4 text-xs font-mono text-amber-200 overflow-x-auto leading-relaxed bg-[#1e1e1e]">{{ problem.solution_c if problem.solution_c else '// Chưa có solution' }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== RIGHT PANE: Code Editor & Console Drawer ==================== -->
+        <div class="w-full lg:w-1/2 flex flex-col bg-darkbg-900 overflow-hidden relative">
+            
+            <!-- Editor Toolbar -->
+            <div class="h-10 bg-darkbg-850 border-b border-darkbg-700 px-3 flex items-center justify-between text-xs">
+                <!-- Language Selector -->
+                <div class="flex items-center space-x-2">
+                    <label for="langSelect" class="text-gray-400 font-medium flex items-center space-x-1">
+                        <i data-lucide="code" class="w-3.5 h-3.5 text-dragon-500"></i>
+                        <span>Ngôn ngữ:</span>
+                    </label>
+                    <select id="langSelect" onchange="onLanguageChange()"
+                        class="bg-darkbg-800 text-gray-100 border border-darkbg-700 rounded px-2.5 py-1 text-xs font-mono font-semibold focus:outline-none focus:border-dragon-500 cursor-pointer">
+                        <option value="python3" selected>Python 3</option>
+                        <option value="c">C (GCC 16 - C11)</option>
+                    </select>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="resetStarterCode()" title="Khôi phục khung code mẫu ban đầu (Template rỗng)"
+                        class="px-2 py-1 rounded bg-darkbg-800 hover:bg-darkbg-700 text-gray-300 hover:text-white transition flex items-center space-x-1">
+                        <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                        <span class="hidden sm:inline">Khung code</span>
+                    </button>
+                    <button onclick="copyCode()" title="Sao chép code vào clipboard"
+                        class="px-2 py-1 rounded bg-darkbg-800 hover:bg-darkbg-700 text-gray-300 hover:text-white transition flex items-center space-x-1">
+                        <i data-lucide="copy" class="w-3 h-3"></i>
+                        <span class="hidden sm:inline">Sao chép</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Monaco Editor Container -->
+            <div id="monacoEditorContainer" class="flex-1 w-full bg-[#1e1e1e] relative min-h-[260px]">
+                <!-- Loading indicator -->
+                <div id="editorLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-darkbg-900 text-gray-400 text-xs space-y-2 z-10">
+                    <div class="w-6 h-6 border-2 border-dragon-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span>Đang khởi động Monaco Editor...</span>
+                </div>
+            </div>
+
+            <!-- Bottom Console / Results Drawer -->
+            <div id="consoleDrawer" class="h-64 flex flex-col bg-darkbg-850 border-t border-darkbg-700 transition-all duration-200">
+                <!-- Console Tabs Header -->
+                <div class="h-9 bg-darkbg-800/80 border-b border-darkbg-700 px-3 flex items-center justify-between text-xs">
+                    <div class="flex items-center space-x-1">
+                        <button id="tabCustomInputBtn" onclick="switchConsoleTab('custom')"
+                            class="console-tab-btn active px-3 py-1.5 rounded font-medium text-xs text-gray-200 bg-darkbg-700 flex items-center space-x-1">
+                            <i data-lucide="terminal" class="w-3 h-3 text-cyan-400"></i>
+                            <span>Test Mẫu (Stdin)</span>
+                        </button>
+                        <button id="tabRunOutputBtn" onclick="switchConsoleTab('run')"
+                            class="console-tab-btn px-3 py-1.5 rounded font-medium text-xs text-gray-400 hover:text-gray-200 flex items-center space-x-1">
+                            <i data-lucide="play" class="w-3 h-3 text-blue-400"></i>
+                            <span>Kết Quả Chạy Thử</span>
+                        </button>
+                        <button id="tabSubmitResultBtn" onclick="switchConsoleTab('submit')"
+                            class="console-tab-btn px-3 py-1.5 rounded font-medium text-xs text-gray-400 hover:text-gray-200 flex items-center space-x-1">
+                            <i data-lucide="award" class="w-3 h-3 text-emerald-400"></i>
+                            <span>Kết Quả Chấm Điểm</span>
+                        </button>
+                    </div>
+
+                    <!-- Console Toggle / Resize -->
+                    <div class="flex items-center space-x-2">
+                        <button onclick="toggleConsoleSize()" title="Thu nhỏ / Phóng to" class="text-gray-400 hover:text-white p-1">
+                            <i data-lucide="chevrons-up-down" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Console Content Panels -->
+                <div class="flex-1 overflow-y-auto p-3 text-xs font-mono">
+                    
+                    <!-- TAB A: Custom Test Input Stdin -->
+                    <div id="panelCustomInput" class="h-full flex flex-col">
+                        <div class="flex items-center justify-between text-[11px] text-gray-400 mb-1">
+                            <span>Nhập dữ liệu vào stdin (Dùng để chạy thử với nút "Chạy thử"):</span>
+                            <button onclick="resetCustomInput()" class="text-dragon-500 hover:underline">Khôi phục Sample Input</button>
+                        </div>
+                        <textarea id="customStdinInput" class="flex-1 w-full bg-darkbg-900 border border-darkbg-700 rounded p-2 text-xs text-gray-200 font-mono resize-none focus:outline-none focus:border-cyan-500" placeholder="Nhập stdin tại đây...">{{ problem.sample_input }}</textarea>
+                    </div>
+
+                    <!-- TAB B: Run Output Console -->
+                    <div id="panelRunOutput" class="hidden h-full flex flex-col space-y-2">
+                        <div id="runStatusHeader" class="flex items-center justify-between text-xs font-sans pb-1 border-b border-darkbg-700 text-gray-400">
+                            <span id="runVerdictBadge" class="font-bold text-gray-300">Chưa chạy thử</span>
+                            <span id="runTimeBadge" class="text-gray-500">-</span>
+                        </div>
+                        <div class="flex-1 overflow-auto bg-darkbg-900 p-2.5 rounded border border-darkbg-700">
+                            <div class="text-gray-500 text-[11px] mb-1 font-sans">STDOUT:</div>
+                            <pre id="runStdoutArea" class="text-emerald-400 whitespace-pre-wrap font-mono text-xs">Bấm "Chạy thử (Run Code)" để xem kết quả đầu ra tại đây...</pre>
+                            
+                            <div id="runStderrBox" class="hidden mt-2 pt-2 border-t border-darkbg-800">
+                                <div class="text-rose-400 text-[11px] mb-1 font-sans">STDERR / COMPILER OUTPUT:</div>
+                                <pre id="runStderrArea" class="text-rose-400 whitespace-pre-wrap font-mono text-xs"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB C: Submit Evaluation Verdict & 5 Test Cases Breakdown -->
+                    <div id="panelSubmitResult" class="hidden h-full flex flex-col space-y-3">
+                        <!-- Score Header Banner -->
+                        <div id="submitSummaryBanner" class="p-3 rounded-lg bg-darkbg-900 border border-darkbg-700 flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center space-x-3">
+                                <div id="submitStatusBadge" class="px-3 py-1 rounded font-bold font-mono text-sm bg-gray-700 text-gray-300">
+                                    CHƯA NỘP
+                                </div>
+                                <div>
+                                    <div id="submitScoreText" class="text-base font-extrabold text-white font-sans">- / 100 điểm</div>
+                                    <div id="submitDetailText" class="text-[11px] text-gray-400 font-sans">Hãy bấm "Nộp bài (Submit Code)" để hệ thống chấm toàn bộ 5 test cases.</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button onclick="switchLeftTab('solution'); unlockSolution(false);" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5 transition">
+                                    <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                                    <span>Xem Solution & Phân Tích</span>
+                                </button>
+                                <span id="submitTimeText" class="text-xs font-mono text-gray-400"></span>
+                            </div>
+                        </div>
+
+                        <!-- 5 Test Cases Detailed Cards -->
+                        <div id="testCasesContainer" class="space-y-2">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Bottom Action Footer -->
+            <div class="h-12 bg-darkbg-850 border-t border-darkbg-700 px-4 flex items-center justify-between z-20">
+                <div class="flex items-center space-x-2 text-xs text-gray-400">
+                    <button onclick="toggleConsole()" class="hover:text-white flex items-center space-x-1 px-2 py-1 rounded hover:bg-darkbg-800 transition">
+                        <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                        <span>Console</span>
+                    </button>
+                    <span class="hidden sm:inline text-gray-600">|</span>
+                    <span class="hidden sm:inline text-gray-500 text-[11px]">Ctrl+Enter: Chạy thử • Ctrl+Alt+Enter: Nộp bài</span>
+                </div>
+
+                <div class="flex items-center space-x-2.5">
+                    <!-- Run Code Button -->
+                    <button id="runCodeBtn" onclick="handleRunCode()"
+                        class="px-4 py-1.5 rounded-lg text-xs font-bold bg-darkbg-700 hover:bg-darkbg-600 text-gray-200 hover:text-white transition shadow flex items-center space-x-1.5 border border-darkbg-600">
+                        <i data-lucide="play" class="w-3.5 h-3.5 text-cyan-400"></i>
+                        <span>Chạy thử</span>
+                    </button>
+
+                    <!-- Submit Code Button -->
+                    <button id="submitCodeBtn" onclick="handleSubmitCode()"
+                        class="px-5 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white transition shadow-lg shadow-emerald-900/30 flex items-center space-x-1.5">
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                        <span>Nộp bài</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Hidden Problem Data for JS -->
+<div id="problemMeta" class="hidden"
+    data-id="{{ problem.id }}"
+    data-sample-input="{{ problem.sample_input }}"
+    data-sample-output="{{ problem.sample_output }}"
+    data-has-submitted="{{ 'true' if problem.has_submitted else 'false' }}">
+</div>
+<script type="application/json" id="pythonStarterJSON">{{ problem.python_starter | tojson }}</script>
+<script type="application/json" id="cStarterJSON">{{ problem.c_starter | tojson }}</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+{% endblock %}
