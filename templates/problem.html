@@ -2,10 +2,7 @@
 
 {% block title %}[{{ problem.id }}] {{ problem.title }} - Bí Kíp Luyện Rồng Judge{% endblock %}
 
-{% block extra_head %}
-<!-- Monaco Editor Loader -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
-{% endblock %}
+{% block extra_head %}{% endblock %}
 
 {% block content %}
 <div class="flex-1 flex flex-col h-[calc(100vh-3.5rem)] overflow-hidden">
@@ -22,9 +19,9 @@
             <span class="text-gray-200 font-medium truncate max-w-xs">{{ problem.title }}</span>
         </div>
         <div class="flex items-center space-x-3">
-            <span class="flex items-center space-x-1">
-                <i data-lucide="clock" class="w-3.5 h-3.5 text-gray-500"></i>
-                <span>{{ problem.time_limit }}s</span>
+            <span class="flex items-center space-x-1.5 px-2 py-0.5 rounded bg-darkbg-800 border border-darkbg-700 text-xs">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i>
+                <span class="font-mono text-gray-300">Py: <strong class="text-amber-400">2.0s</strong> | C: <strong class="text-emerald-400">1.0s</strong></span>
             </span>
             <span class="flex items-center space-x-1">
                 <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-gray-500"></i>
@@ -88,7 +85,7 @@
 
                     <!-- Description -->
                     <div class="prose prose-invert max-w-none">
-                        <div class="text-gray-200 leading-relaxed whitespace-pre-line">{{ problem.description }}</div>
+                        <div id="problemDescContent" class="text-gray-200 leading-relaxed whitespace-pre-line">{{ problem.description }}</div>
                     </div>
 
                     <!-- Input Format -->
@@ -97,7 +94,7 @@
                             <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
                             <span>Định Dạng Đầu Vào (Input)</span>
                         </h3>
-                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs font-mono leading-relaxed whitespace-pre-line">
+                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs leading-relaxed whitespace-pre-line">
 {{ problem.input_format }}
                         </div>
                     </div>
@@ -108,7 +105,7 @@
                             <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
                             <span>Định Dạng Đầu Ra (Output)</span>
                         </h3>
-                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs font-mono leading-relaxed whitespace-pre-line">
+                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs leading-relaxed whitespace-pre-line">
 {{ problem.output_format }}
                         </div>
                     </div>
@@ -119,7 +116,7 @@
                             <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
                             <span>Ràng Buộc (Constraints)</span>
                         </h3>
-                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs font-mono leading-relaxed whitespace-pre-line">
+                        <div class="bg-darkbg-850 p-3.5 rounded-lg border border-darkbg-700 text-gray-300 text-xs leading-relaxed whitespace-pre-line">
 {{ problem.constraints }}
                         </div>
                     </div>
@@ -477,6 +474,59 @@
     </div>
 </div>
 
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+<!-- Modal: Xem Lại Mã Nguồn Đã Nộp -->
+<div id="viewSubmissionModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-darkbg-850 border border-darkbg-700 rounded-xl shadow-2xl max-w-2xl w-full flex flex-col overflow-hidden max-h-[85vh]">
+        <!-- Modal Header -->
+        <div class="px-4 py-3 bg-darkbg-800 border-b border-darkbg-700 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="code" class="w-4 h-4 text-orange-400"></i>
+                <h3 class="text-sm font-bold text-gray-200">Chi Tiết Mã Nguồn Đã Nộp</h3>
+                <span id="modalSubStatus" class="px-2 py-0.5 rounded text-xs font-mono font-bold"></span>
+                <span id="modalSubScore" class="text-xs text-gray-400"></span>
+            </div>
+            <button onclick="closeSubmissionModal()" class="text-gray-400 hover:text-white p-1 rounded hover:bg-darkbg-700 transition">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- Modal Meta info -->
+        <div class="px-4 py-2 bg-darkbg-900 border-b border-darkbg-800 text-xs text-gray-400 flex items-center justify-between">
+            <div>
+                Ngôn ngữ: <span id="modalSubLang" class="font-mono font-bold uppercase text-gray-200"></span>
+            </div>
+            <div>
+                Thời gian nộp: <span id="modalSubTime" class="font-mono text-gray-300"></span>
+            </div>
+        </div>
+
+        <!-- Modal Code View -->
+        <div class="p-4 overflow-y-auto flex-1 bg-darkbg-900">
+            <div class="relative">
+                <button onclick="copyModalCode()" title="Sao chép mã này" class="absolute top-2 right-2 px-2 py-1 rounded bg-darkbg-800 hover:bg-darkbg-700 text-gray-300 text-xs font-medium border border-darkbg-700 flex items-center space-x-1 transition">
+                    <i data-lucide="copy" class="w-3 h-3"></i>
+                    <span>Copy</span>
+                </button>
+                <pre id="modalSubCodeContent" class="p-4 rounded-lg bg-darkbg-850 border border-darkbg-700 font-mono text-xs text-emerald-300 overflow-x-auto whitespace-pre leading-relaxed"></pre>
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-4 py-3 bg-darkbg-800 border-t border-darkbg-700 flex items-center justify-end space-x-2">
+            <button onclick="closeSubmissionModal()" class="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-darkbg-700 hover:bg-darkbg-600 text-gray-300 transition">
+                Đóng
+            </button>
+            <button id="modalRestoreBtn" onclick="restoreFromModal()" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-orange-600 hover:bg-orange-500 text-white flex items-center space-x-1.5 transition shadow-lg shadow-orange-900/30">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <span>Nạp lại vào Editor</span>
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- Hidden Problem Data for JS -->
 <div id="problemMeta" class="hidden"
     data-id="{{ problem.id }}"
@@ -489,5 +539,7 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<!-- Monaco Editor Loader đặt sau KaTeX để tránh xung đột biến define (AMD) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 <script src="{{ url_for('static', filename='js/editor.js') }}"></script>
 {% endblock %}

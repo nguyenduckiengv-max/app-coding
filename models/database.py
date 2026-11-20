@@ -274,12 +274,12 @@ def record_submission(
     return sub_id
 
 
-def get_submissions_for_problem(problem_id: str, limit: int = 15) -> List[Dict[str, Any]]:
-    """Lay lich su cac lan nop bai gan nhat cho bai tap nay"""
+def get_submissions_for_problem(problem_id: str, limit: int = 20) -> List[Dict[str, Any]]:
+    """Lay lich su cac lan nop bai gan nhat cho bai tap nay (bao gom ca ma nguon da nop)"""
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT id, problem_id, language, status, score, passed_count, total_count, max_time_ms, created_at
+        SELECT id, problem_id, language, code, status, score, passed_count, total_count, max_time_ms, created_at
         FROM submissions
         WHERE problem_id = ?
         ORDER BY id DESC
@@ -289,6 +289,16 @@ def get_submissions_for_problem(problem_id: str, limit: int = 15) -> List[Dict[s
     submissions = [dict(r) for r in rows]
     conn.close()
     return submissions
+
+
+def get_submission_by_id(submission_id: int) -> Optional[Dict[str, Any]]:
+    """Lay chi tiet mot lan nop bai bao gom ca ma nguon va ket qua tung test case"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM submissions WHERE id = ?", (submission_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return dict(row) if row else None
 
 
 def get_solution(problem_id: str) -> Optional[Dict[str, Any]]:

@@ -1,3 +1,0 @@
-Analyzing the problem descriptions on page 19, the tasks involve numerical operations and conditional checks. Specifically, task 70 requires finding the 70th decimal digit of a division. Tasks 71 and 72 deal with identifying and finding the next perfect square. These problems involve mathematical computations and integer manipulations.
-
-

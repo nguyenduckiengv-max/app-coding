@@ -11,7 +11,8 @@ from models.database import (
     get_overall_stats,
     seed_problems_from_json,
     get_db_connection,
-    get_solution
+    get_solution,
+    get_submission_by_id
 )
 from judge.engine import run_custom_test, judge_submission
 
@@ -136,6 +137,15 @@ def api_get_submissions(problem_id):
     """Lay lich su cac lan nop bai cho mot bai tap"""
     submissions = get_submissions_for_problem(problem_id)
     return jsonify({"submissions": submissions})
+
+
+@app.route("/api/submission/<int:submission_id>", methods=["GET"])
+def api_get_single_submission(submission_id):
+    """Lay chi tiet ma nguon va ket qua cua mot lan nop bai cu the"""
+    sub = get_submission_by_id(submission_id)
+    if not sub:
+        return jsonify({"error": "Không tìm thấy bài nộp"}), 404
+    return jsonify({"submission": sub})
 
 
 @app.route("/api/submission/<int:sub_id>", methods=["GET"])

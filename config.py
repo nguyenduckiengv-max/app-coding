@@ -15,7 +15,14 @@ DB_PATH = os.path.join(DATA_DIR, "dragon_judge.db")
 PROBLEMS_JSON_PATH = os.path.join(DATA_DIR, "problems.json")
 
 # Judge Engine Settings
-DEFAULT_TIMEOUT_SECONDS = 1.5  # Time limit per test case (in seconds)
+DEFAULT_TIMEOUT_SECONDS = 1.5  # Base default fallback (seconds)
+TIMEOUT_BY_LANGUAGE = {
+    "c": 1.0,         # C is fast compiled code: 1.0s limit
+    "gcc": 1.0,
+    "python": 2.0,    # Python 3 is interpreted: 2.0s limit
+    "python3": 2.0,
+    "py": 2.0
+}
 MAX_OUTPUT_LENGTH = 10000      # Max characters of stdout/stderr to capture (prevents memory bomb)
 
 # Python executable to use for sandbox execution

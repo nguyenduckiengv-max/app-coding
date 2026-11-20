@@ -510,6 +510,20 @@
           "description": "Stress test giá trị lớn",
           "input_data": "1000 3 500 7\n",
           "expected_output": "23809.52\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Test số lớn hỗn hợp",
+          "input_data": "987654 321 876543 999\n",
+          "expected_output": "2699650.43\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Test biên âm dương",
+          "input_data": "1000 -1000 1000 -1000\n",
+          "expected_output": "1.00\n"
         }
       ]
     },
@@ -567,6 +581,20 @@
           "description": "Stress test số lớn",
           "input_data": "999996 999998\n",
           "expected_output": "499998 499999\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Rút gọn phân số lớn",
+          "input_data": "999999999 333333333\n",
+          "expected_output": "3 1\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Phân số triệu",
+          "input_data": "1000000 800000\n",
+          "expected_output": "5 4\n"
         }
       ]
     },
@@ -624,6 +652,20 @@
           "description": "Stress test cạnh cực đại 10000",
           "input_data": "10000 10000\n",
           "expected_output": "40000.00 100000000.00\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Kích thước chữ nhật lớn",
+          "input_data": "9999.85 8888.75\n",
+          "expected_output": "37777.20 88886166.69\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Kích thước chữ nhật cực nhỏ",
+          "input_data": "0.05 0.12\n",
+          "expected_output": "0.34 0.01\n"
         }
       ]
     },
@@ -681,6 +723,20 @@
           "description": "Stress test cạnh 10000",
           "input_data": "10000\n",
           "expected_output": "14142.14\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Cạnh hình vuông lớn sát 10000",
+          "input_data": "9999.99\n",
+          "expected_output": "14142.12\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Cạnh lẻ thập phân",
+          "input_data": "1234.56\n",
+          "expected_output": "1745.93\n"
         }
       ]
     },
@@ -738,6 +794,20 @@
           "description": "Stress test số lớn 10^9",
           "input_data": "1000000000\n",
           "expected_output": "2 2 2 2 2 2 2 2 2 5 5 5 5 5 5 5 5 5\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số nguyên tố lớn (chỉ 1 thừa số)",
+          "input_data": "999999937\n",
+          "expected_output": "999999937\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Phân tích số lớn nhiều thừa số",
+          "input_data": "987654321\n",
+          "expected_output": "3 3 17 17 379721\n"
         }
       ]
     },
@@ -795,6 +865,20 @@
           "description": "Stress test n = 10^9",
           "input_data": "1000000000\n",
           "expected_output": "500000001\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số chẵn cực lớn",
+          "input_data": "999999998\n",
+          "expected_output": "500000000\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Số lẻ cực lớn sát 10^9",
+          "input_data": "999999999\n",
+          "expected_output": "500000000\n"
         }
       ]
     },
@@ -852,6 +936,20 @@
           "description": "Stress test số lớn",
           "input_data": "999999999\n",
           "expected_output": "YES\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Tổng 3 số chia hết cho 3 (YES)",
+          "input_data": "999999999\n",
+          "expected_output": "YES\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Số lớn không chia hết cho 3 (NO)",
+          "input_data": "1000000000\n",
+          "expected_output": "NO\n"
         }
       ]
     },
@@ -909,6 +1007,20 @@
           "description": "Stress test (n = 10^9)",
           "input_data": "1000000000\n",
           "expected_output": "50\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số nguyên tố lớn (2 ước -> 1 cặp)",
+          "input_data": "999999937\n",
+          "expected_output": "1\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Số có cực nhiều ước số",
+          "input_data": "720720\n",
+          "expected_output": "120\n"
         }
       ]
     },
@@ -966,6 +1078,20 @@
           "description": "Stress test số lớn n = 10^9",
           "input_data": "1000000000\n",
           "expected_output": "500000000 500000000\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số lẻ lớn nhất",
+          "input_data": "999999999\n",
+          "expected_output": "499999999 500000000\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Số chẵn lớn nhất",
+          "input_data": "987654320\n",
+          "expected_output": "493827160 493827160\n"
         }
       ]
     },
@@ -1023,6 +1149,20 @@
           "description": "Stress test (n = 10^9)",
           "input_data": "1000000000\n",
           "expected_output": "31250 32000\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số nguyên tố lớn (tổng tối thiểu 1 + n)",
+          "input_data": "999999937\n",
+          "expected_output": "1 999999937\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Số lớn tìm thừa số sát căn",
+          "input_data": "987654320\n",
+          "expected_output": "2960 333667\n"
         }
       ]
     },
@@ -1080,6 +1220,20 @@
           "description": "Stress test n = 100000 -> 99991",
           "input_data": "100000\n",
           "expected_output": "99991\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Tìm số nguyên tố lớn nhất <= 99999",
+          "input_data": "99999\n",
+          "expected_output": "99991\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Tìm số nguyên tố lớn nhất <= 88888",
+          "input_data": "88888\n",
+          "expected_output": "88883\n"
         }
       ]
     },
@@ -1137,6 +1291,20 @@
           "description": "Biên trên (n = 40)",
           "input_data": "40\n",
           "expected_output": "102334155\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Fibonacci thứ 38",
+          "input_data": "38\n",
+          "expected_output": "39088169\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Fibonacci thứ 39",
+          "input_data": "39\n",
+          "expected_output": "63245986\n"
         }
       ]
     },
@@ -1194,6 +1362,20 @@
           "description": "Biên trên (n = 100000)",
           "input_data": "100000\n",
           "expected_output": "75025\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Fibonacci lớn nhất <= 99999",
+          "input_data": "99999\n",
+          "expected_output": "75025\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Fibonacci lớn nhất <= 50000",
+          "input_data": "50000\n",
+          "expected_output": "46368\n"
         }
       ]
     },
@@ -1251,6 +1433,20 @@
           "description": "Số lớn không phải Fibo",
           "input_data": "1000000000\n",
           "expected_output": "NO\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Kiểm tra số Fibo 40 (YES)",
+          "input_data": "102334155\n",
+          "expected_output": "YES\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Kiểm tra số lớn không thuộc Fibo (NO)",
+          "input_data": "999999999\n",
+          "expected_output": "NO\n"
         }
       ]
     },
@@ -1306,6 +1502,20 @@
           "test_index": 5,
           "is_sample": false,
           "description": "Stress test 10^9 (10 chữ số)",
+          "input_data": "1000000000\n",
+          "expected_output": "10\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số 9 chữ số",
+          "input_data": "987654321\n",
+          "expected_output": "9\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Số 10 chữ số (Biên 10^9)",
           "input_data": "1000000000\n",
           "expected_output": "10\n"
         }
@@ -1365,6 +1575,20 @@
           "description": "Stress test 999999999 -> 81",
           "input_data": "999999999\n",
           "expected_output": "81\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Tổng 9 chữ số khác nhau",
+          "input_data": "987654321\n",
+          "expected_output": "45\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Tổng 9 chữ số 9 (81)",
+          "input_data": "999999999\n",
+          "expected_output": "81\n"
         }
       ]
     },
@@ -1422,6 +1646,20 @@
           "description": "Số đầy đủ 1 đến 9",
           "input_data": "123456789\n",
           "expected_output": "5.00\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "TBC 9 chữ số",
+          "input_data": "987654321\n",
+          "expected_output": "5.00\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "TBC số có nhiều số 0",
+          "input_data": "1000000000\n",
+          "expected_output": "0.10\n"
         }
       ]
     },
@@ -1477,6 +1715,20 @@
           "test_index": 5,
           "is_sample": false,
           "description": "Stress test n = 10^9 (Cực lớn)",
+          "input_data": "1000000000\n",
+          "expected_output": "249999998\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số chữ số 0 tận cùng của 5.10^8!",
+          "input_data": "500000000\n",
+          "expected_output": "124999999\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Số chữ số 0 tận cùng của 10^9!",
           "input_data": "1000000000\n",
           "expected_output": "249999998\n"
         }
@@ -1536,6 +1788,20 @@
           "description": "Stress test n = 100",
           "input_data": "100\n",
           "expected_output": "4\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Chữ số tận cùng khác 0 của 10000!",
+          "input_data": "10000\n",
+          "expected_output": "8\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Chữ số tận cùng khác 0 của 50000!",
+          "input_data": "50000\n",
+          "expected_output": "8\n"
         }
       ]
     },
@@ -1593,6 +1859,20 @@
           "description": "Nhiều số âm đan xen",
           "input_data": "6\n-13 27 -33 49 51 -63\n",
           "expected_output": "1\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Tích các số tròn trăm (tận cùng 0)",
+          "input_data": "8\n100 200 -300 400 -500 600 700 800\n",
+          "expected_output": "0\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Tích nhiều số lẻ lớn",
+          "input_data": "10\n11 13 17 19 21 23 27 29 31 33\n",
+          "expected_output": "3\n"
         }
       ]
     },
@@ -1649,7 +1929,21 @@
           "is_sample": false,
           "description": "Mẫu số lớn",
           "input_data": "355 113\n",
-          "expected_output": "9\n"
+          "expected_output": "1\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Chữ số thứ 70 số lớn",
+          "input_data": "987654 123456\n",
+          "expected_output": "6\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Chữ số thứ 70 mẫu số 999999",
+          "input_data": "1 999999\n",
+          "expected_output": "0\n"
         }
       ]
     },
@@ -1707,6 +2001,20 @@
           "description": "Stress test chính phương lớn (10^9^2 -> 10^8: 100000000 -> YES)",
           "input_data": "100000000\n",
           "expected_output": "YES\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Chính phương lớn 99999^2 (YES)",
+          "input_data": "9999800001\n",
+          "expected_output": "YES\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Không phải chính phương (NO)",
+          "input_data": "9999800002\n",
+          "expected_output": "NO\n"
         }
       ]
     },
@@ -1762,6 +2070,20 @@
           "test_index": 5,
           "is_sample": false,
           "description": "Biên trên n = 99999",
+          "input_data": "99999\n",
+          "expected_output": "100489\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Chính phương nhỏ nhất >= 88888",
+          "input_data": "88888\n",
+          "expected_output": "89401\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Chính phương nhỏ nhất >= 99999",
           "input_data": "99999\n",
           "expected_output": "100489\n"
         }
@@ -1821,6 +2143,20 @@
           "description": "Stress test n = 1000000000 (10^9 chia hết cho 1 -> YES)",
           "input_data": "1000000000\n",
           "expected_output": "YES\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Số may mắn lớn (YES)",
+          "input_data": "999999990\n",
+          "expected_output": "NO\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Không phải số may mắn (NO)",
+          "input_data": "999999999\n",
+          "expected_output": "YES\n"
         }
       ]
     },
@@ -1877,6 +2213,20 @@
           "is_sample": false,
           "description": "Stress test n = 10^9",
           "input_data": "1000000000\n",
+          "expected_output": "31622\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Đếm chính phương <= 888888888",
+          "input_data": "888888888\n",
+          "expected_output": "29814\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Đếm chính phương <= 999999999",
+          "input_data": "999999999\n",
           "expected_output": "31622\n"
         }
       ]
@@ -1935,6 +2285,20 @@
           "description": "Stress test n = 10^6",
           "input_data": "1000000\n",
           "expected_output": "78498\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Đếm số nguyên tố <= 50000",
+          "input_data": "50000\n",
+          "expected_output": "5133\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Đếm số nguyên tố <= 100000 (Sàng lớn)",
+          "input_data": "100000\n",
+          "expected_output": "9592\n"
         }
       ]
     },
@@ -1992,6 +2356,20 @@
           "description": "Hỗn hợp nhiều số",
           "input_data": "8\n10 16 20 25 30 49 64 80\n",
           "expected_output": "4\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Dãy 10 số chính phương liên tiếp",
+          "input_data": "10\n1 4 9 16 25 36 49 64 81 100\n",
+          "expected_output": "10\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Hỗn hợp 12 số",
+          "input_data": "12\n10 20 30 40 50 60 70 80 90 100 121 144\n",
+          "expected_output": "3\n"
         }
       ]
     },
@@ -2049,6 +2427,20 @@
           "description": "Dãy nhiều số nguyên tố lớn",
           "input_data": "7\n11 23 29 31 37 41 43\n",
           "expected_output": "7\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Dãy 10 số nguyên tố lớn",
+          "input_data": "10\n101 103 107 109 113 127 131 137 139 149\n",
+          "expected_output": "10\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Dãy 15 số chẵn (chỉ có 2 là NT)",
+          "input_data": "15\n2 4 6 8 10 12 14 16 18 20 22 24 26 28 30\n",
+          "expected_output": "1\n"
         }
       ]
     },
@@ -2106,6 +2498,20 @@
           "description": "Nhiều số bội số của tổng chữ số",
           "input_data": "6\n21 24 27 30 36 42\n",
           "expected_output": "6\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Dãy 10 số Harshad lớn",
+          "input_data": "10\n102 108 110 111 112 114 117 120 126 132\n",
+          "expected_output": "10\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Dãy số nguyên tố không chia hết cho tổng CS",
+          "input_data": "8\n101 103 107 109 113 127 131 137\n",
+          "expected_output": "0\n"
         }
       ]
     },
@@ -2163,6 +2569,20 @@
           "description": "Biên trên n = 10^6",
           "input_data": "1000000\n",
           "expected_output": "2480437\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Tổng ước số nguyên tố lớn (chỉ 1 và chính nó)",
+          "input_data": "999983\n",
+          "expected_output": "999984\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Tổng ước số phong phú lớn",
+          "input_data": "720720\n",
+          "expected_output": "3249792\n"
         }
       ]
     },
@@ -2220,6 +2640,20 @@
           "description": "Stress test biên cực đại 80000",
           "input_data": "80000\n",
           "expected_output": "22:13:20\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Gần 80000 giây",
+          "input_data": "79999\n",
+          "expected_output": "22:13:19\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Nửa ngày (12:00:00)",
+          "input_data": "43200\n",
+          "expected_output": "12:00:00\n"
         }
       ]
     },
@@ -2277,6 +2711,20 @@
           "description": "Stress test số 10000 10000",
           "input_data": "10000 10000\n",
           "expected_output": "0000100001\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Ghép số 4 chữ số",
+          "input_data": "9999 8888\n",
+          "expected_output": "88889999\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Ghép số có nhiều số 0",
+          "input_data": "1000 2000\n",
+          "expected_output": "00020001\n"
         }
       ]
     },
@@ -2333,7 +2781,21 @@
           "is_sample": false,
           "description": "Đoạn lớn 1000..2000 modulo 10^9+7",
           "input_data": "1000 2000 1000000007\n",
-          "expected_output": "649176378\n"
+          "expected_output": "632939347\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Đoạn 10000 phần tử modulo lớn",
+          "input_data": "10000 20000 1000000007\n",
+          "expected_output": "619129932\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Đoạn 10000 phần tử modulo chuẩn tin học",
+          "input_data": "50000 60000 998244353\n",
+          "expected_output": "804984049\n"
         }
       ]
     },
@@ -2390,7 +2852,21 @@
           "is_sample": false,
           "description": "Mảng nhiều phần tử",
           "input_data": "6\n500 1000 1500 2000 2500 3000\n",
-          "expected_output": "42000\n"
+          "expected_output": "45500\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Trọng số dãy cấp số cộng",
+          "input_data": "10\n100 200 300 400 500 600 700 800 900 1000\n",
+          "expected_output": "38500\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Trọng số mảng số lớn",
+          "input_data": "8\n10000 20000 30000 40000 50000 60000 70000 80000\n",
+          "expected_output": "2040000\n"
         }
       ]
     },
@@ -2448,6 +2924,20 @@
           "description": "Stress test n = 10000 -> 10011100010000",
           "input_data": "10000\n",
           "expected_output": "10011100010000\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Chuyển số thập phân 9999 sang nhị phân",
+          "input_data": "9999\n",
+          "expected_output": "10011100001111\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Lũy thừa đúng 2^13 (10000000000000)",
+          "input_data": "8192\n",
+          "expected_output": "10000000000000\n"
         }
       ]
     },
@@ -2505,6 +2995,20 @@
           "description": "Chuỗi dài (30 chữ số 1)",
           "input_data": "111111111111111111111111111111\n",
           "expected_output": "1073741823\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Chuỗi nhị phân 30 bit đan xen",
+          "input_data": "101010101010101010101010101010\n",
+          "expected_output": "715827882\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "32 bit 1 (4294967295)",
+          "input_data": "11111111111111111111111111111111\n",
+          "expected_output": "4294967295\n"
         }
       ]
     },
@@ -2552,9 +3056,9 @@
         {
           "test_index": 4,
           "is_sample": false,
-          "description": "Chia làm 2 nửa đối xứng",
+          "description": "Chia làm 4 đoạn tổng 3",
           "input_data": "6\n1 2 3 3 2 1\n",
-          "expected_output": "2\n"
+          "expected_output": "4\n"
         },
         {
           "test_index": 5,
@@ -2562,6 +3066,20 @@
           "description": "Mảng toàn số 2",
           "input_data": "6\n2 2 2 2 2 2\n",
           "expected_output": "6\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Chia băng số tổng 75",
+          "input_data": "12\n1 2 3 4 5 15 10 5 8 7 6 9\n",
+          "expected_output": "5\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "10 phần tử bằng nhau (k = 10)",
+          "input_data": "10\n10 10 10 10 10 10 10 10 10 10\n",
+          "expected_output": "10\n"
         }
       ]
     },
@@ -2619,6 +3137,20 @@
           "description": "Xâu n = 7",
           "input_data": "7\n",
           "expected_output": "BABBABABBABBA\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Xâu Fibonacci thứ 18 (2584 ký tự)",
+          "input_data": "18\n",
+          "expected_output": "BABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABAB\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Xâu Fibonacci thứ 19 (4181 ký tự)",
+          "input_data": "19\n",
+          "expected_output": "BABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABABBABBABABBABBABABBABABBABBABABBABBA\n"
         }
       ]
     },
@@ -2676,6 +3208,20 @@
           "description": "Stress test mảng lớn 1000 phần tử",
           "input_data": "10\n-5 -5 -5 -5 2 2 2 2 2 -5\n",
           "expected_output": "5\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Đoạn 7 số 3 liên tiếp",
+          "input_data": "16\n1 1 1 2 2 2 2 2 3 3 3 3 3 3 3 4\n",
+          "expected_output": "7\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Toàn bộ mảng bằng nhau (độ dài 10)",
+          "input_data": "10\n9 9 9 9 9 9 9 9 9 9\n",
+          "expected_output": "10\n"
         }
       ]
     },
@@ -2733,6 +3279,20 @@
           "description": "Đoạn dương ở giữa mảng",
           "input_data": "10\n1 2 -1 3 4 5 6 -2 7 8\n",
           "expected_output": "4\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Đoạn dương dài nhất 5 phần tử",
+          "input_data": "14\n-1 2 3 4 5 6 -2 7 8 9 10 -3 11 12\n",
+          "expected_output": "5\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Toàn bộ là số dương (độ dài 10)",
+          "input_data": "10\n1 2 3 4 5 6 7 8 9 10\n",
+          "expected_output": "10\n"
         }
       ]
     },
@@ -2790,6 +3350,20 @@
           "description": "Đoạn giảm dài ở đuôi",
           "input_data": "7\n1 3 5 2 1 0 -1\n",
           "expected_output": "5\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Dãy tăng dài rồi giảm dài",
+          "input_data": "12\n1 3 5 7 9 11 10 8 6 4 2 0\n",
+          "expected_output": "7\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Tăng nghiêm ngặt 8 phần tử",
+          "input_data": "8\n10 20 30 40 50 60 70 80\n",
+          "expected_output": "8\n"
         }
       ]
     },
@@ -2847,6 +3421,20 @@
           "description": "Mảng 1 phần tử",
           "input_data": "1\n-7\n",
           "expected_output": "1\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Đan xen hoàn hảo 12 phần tử",
+          "input_data": "12\n1 -2 3 -4 5 -6 7 -8 9 -10 11 -12\n",
+          "expected_output": "12\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Đan xen ở đoạn giữa",
+          "input_data": "10\n1 2 -3 4 -5 6 -7 8 9 10\n",
+          "expected_output": "7\n"
         }
       ]
     },
@@ -2904,6 +3492,20 @@
           "description": "Có số 0 (0 chia hết cho mọi k)",
           "input_data": "6 10\n10 20 0 30 4 50\n",
           "expected_output": "4\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Đoạn 6 phần tử chia hết cho 5",
+          "input_data": "12 5\n1 2 5 10 15 20 25 30 3 4 50 60\n",
+          "expected_output": "6\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Toàn bộ chia hết cho 7 (độ dài 10)",
+          "input_data": "10 7\n7 14 21 28 35 42 49 56 63 70\n",
+          "expected_output": "10\n"
         }
       ]
     },
@@ -2961,6 +3563,20 @@
           "description": "Biên trên x = 10000",
           "input_data": "10000\n",
           "expected_output": "20000 30000 60000\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Phân số x = 9999",
+          "input_data": "9999\n",
+          "expected_output": "19998 29997 59994\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Phân số x = 5000",
+          "input_data": "5000\n",
+          "expected_output": "10000 15000 30000\n"
         }
       ]
     },
@@ -3016,6 +3632,20 @@
           "test_index": 5,
           "is_sample": false,
           "description": "Stress test n = 10",
+          "input_data": "10\n",
+          "expected_output": "1\n1 1\n1 2 1\n1 3 3 1\n1 4 6 4 1\n1 5 10 10 5 1\n1 6 15 20 15 6 1\n1 7 21 35 35 21 7 1\n1 8 28 56 70 56 28 8 1\n1 9 36 84 126 126 84 36 9 1\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Tam giác Pascal bậc 9",
+          "input_data": "9\n",
+          "expected_output": "1\n1 1\n1 2 1\n1 3 3 1\n1 4 6 4 1\n1 5 10 10 5 1\n1 6 15 20 15 6 1\n1 7 21 35 35 21 7 1\n1 8 28 56 70 56 28 8 1\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Tam giác Pascal bậc 10 (giới hạn tối đa)",
           "input_data": "10\n",
           "expected_output": "1\n1 1\n1 2 1\n1 3 3 1\n1 4 6 4 1\n1 5 10 10 5 1\n1 6 15 20 15 6 1\n1 7 21 35 35 21 7 1\n1 8 28 56 70 56 28 8 1\n1 9 36 84 126 126 84 36 9 1\n"
         }
@@ -3075,6 +3705,20 @@
           "description": "Test n = 100 (9 10 11 12 13 14 15 16)",
           "input_data": "100\n",
           "expected_output": "9 10 11 12 13 14 15 16\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Phân tích 500000 thành tổng liên tiếp",
+          "input_data": "500000\n",
+          "expected_output": "488 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525 526 527 528 529 530 531 532 533 534 535 536 537 538 539 540 541 542 543 544 545 546 547 548 549 550 551 552 553 554 555 556 557 558 559 560 561 562 563 564 565 566 567 568 569 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585 586 587 588 589 590 591 592 593 594 595 596 597 598 599 600 601 602 603 604 605 606 607 608 609 610 611 612 613 614 615 616 617 618 619 620 621 622 623 624 625 626 627 628 629 630 631 632 633 634 635 636 637 638 639 640 641 642 643 644 645 646 647 648 649 650 651 652 653 654 655 656 657 658 659 660 661 662 663 664 665 666 667 668 669 670 671 672 673 674 675 676 677 678 679 680 681 682 683 684 685 686 687 688 689 690 691 692 693 694 695 696 697 698 699 700 701 702 703 704 705 706 707 708 709 710 711 712 713 714 715 716 717 718 719 720 721 722 723 724 725 726 727 728 729 730 731 732 733 734 735 736 737 738 739 740 741 742 743 744 745 746 747 748 749 750 751 752 753 754 755 756 757 758 759 760 761 762 763 764 765 766 767 768 769 770 771 772 773 774 775 776 777 778 779 780 781 782 783 784 785 786 787 788 789 790 791 792 793 794 795 796 797 798 799 800 801 802 803 804 805 806 807 808 809 810 811 812 813 814 815 816 817 818 819 820 821 822 823 824 825 826 827 828 829 830 831 832 833 834 835 836 837 838 839 840 841 842 843 844 845 846 847 848 849 850 851 852 853 854 855 856 857 858 859 860 861 862 863 864 865 866 867 868 869 870 871 872 873 874 875 876 877 878 879 880 881 882 883 884 885 886 887 888 889 890 891 892 893 894 895 896 897 898 899 900 901 902 903 904 905 906 907 908 909 910 911 912 913 914 915 916 917 918 919 920 921 922 923 924 925 926 927 928 929 930 931 932 933 934 935 936 937 938 939 940 941 942 943 944 945 946 947 948 949 950 951 952 953 954 955 956 957 958 959 960 961 962 963 964 965 966 967 968 969 970 971 972 973 974 975 976 977 978 979 980 981 982 983 984 985 986 987 988 989 990 991 992 993 994 995 996 997 998 999 1000 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030 1031 1032 1033 1034 1035 1036 1037 1038 1039 1040 1041 1042 1043 1044 1045 1046 1047 1048 1049 1050 1051 1052 1053 1054 1055 1056 1057 1058 1059 1060 1061 1062 1063 1064 1065 1066 1067 1068 1069 1070 1071 1072 1073 1074 1075 1076 1077 1078 1079 1080 1081 1082 1083 1084 1085 1086 1087 1088 1089 1090 1091 1092 1093 1094 1095 1096 1097 1098 1099 1100 1101 1102 1103 1104 1105 1106 1107 1108 1109 1110 1111 1112\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Phân tích 10^6 thành tổng liên tiếp",
+          "input_data": "1000000\n",
+          "expected_output": "1243 1244 1245 1246 1247 1248 1249 1250 1251 1252 1253 1254 1255 1256 1257 1258 1259 1260 1261 1262 1263 1264 1265 1266 1267 1268 1269 1270 1271 1272 1273 1274 1275 1276 1277 1278 1279 1280 1281 1282 1283 1284 1285 1286 1287 1288 1289 1290 1291 1292 1293 1294 1295 1296 1297 1298 1299 1300 1301 1302 1303 1304 1305 1306 1307 1308 1309 1310 1311 1312 1313 1314 1315 1316 1317 1318 1319 1320 1321 1322 1323 1324 1325 1326 1327 1328 1329 1330 1331 1332 1333 1334 1335 1336 1337 1338 1339 1340 1341 1342 1343 1344 1345 1346 1347 1348 1349 1350 1351 1352 1353 1354 1355 1356 1357 1358 1359 1360 1361 1362 1363 1364 1365 1366 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394 1395 1396 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408 1409 1410 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420 1421 1422 1423 1424 1425 1426 1427 1428 1429 1430 1431 1432 1433 1434 1435 1436 1437 1438 1439 1440 1441 1442 1443 1444 1445 1446 1447 1448 1449 1450 1451 1452 1453 1454 1455 1456 1457 1458 1459 1460 1461 1462 1463 1464 1465 1466 1467 1468 1469 1470 1471 1472 1473 1474 1475 1476 1477 1478 1479 1480 1481 1482 1483 1484 1485 1486 1487 1488 1489 1490 1491 1492 1493 1494 1495 1496 1497 1498 1499 1500 1501 1502 1503 1504 1505 1506 1507 1508 1509 1510 1511 1512 1513 1514 1515 1516 1517 1518 1519 1520 1521 1522 1523 1524 1525 1526 1527 1528 1529 1530 1531 1532 1533 1534 1535 1536 1537 1538 1539 1540 1541 1542 1543 1544 1545 1546 1547 1548 1549 1550 1551 1552 1553 1554 1555 1556 1557 1558 1559 1560 1561 1562 1563 1564 1565 1566 1567 1568 1569 1570 1571 1572 1573 1574 1575 1576 1577 1578 1579 1580 1581 1582 1583 1584 1585 1586 1587 1588 1589 1590 1591 1592 1593 1594 1595 1596 1597 1598 1599 1600 1601 1602 1603 1604 1605 1606 1607 1608 1609 1610 1611 1612 1613 1614 1615 1616 1617 1618 1619 1620 1621 1622 1623 1624 1625 1626 1627 1628 1629 1630 1631 1632 1633 1634 1635 1636 1637 1638 1639 1640 1641 1642 1643 1644 1645 1646 1647 1648 1649 1650 1651 1652 1653 1654 1655 1656 1657 1658 1659 1660 1661 1662 1663 1664 1665 1666 1667 1668 1669 1670 1671 1672 1673 1674 1675 1676 1677 1678 1679 1680 1681 1682 1683 1684 1685 1686 1687 1688 1689 1690 1691 1692 1693 1694 1695 1696 1697 1698 1699 1700 1701 1702 1703 1704 1705 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715 1716 1717 1718 1719 1720 1721 1722 1723 1724 1725 1726 1727 1728 1729 1730 1731 1732 1733 1734 1735 1736 1737 1738 1739 1740 1741 1742 1743 1744 1745 1746 1747 1748 1749 1750 1751 1752 1753 1754 1755 1756 1757 1758 1759 1760 1761 1762 1763 1764 1765 1766 1767 1768 1769 1770 1771 1772 1773 1774 1775 1776 1777 1778 1779 1780 1781 1782 1783 1784 1785 1786 1787 1788 1789 1790 1791 1792 1793 1794 1795 1796 1797 1798 1799 1800 1801 1802 1803 1804 1805 1806 1807 1808 1809 1810 1811 1812 1813 1814 1815 1816 1817 1818 1819 1820 1821 1822 1823 1824 1825 1826 1827 1828 1829 1830 1831 1832 1833 1834 1835 1836 1837 1838 1839 1840 1841 1842 1843 1844 1845 1846 1847 1848 1849 1850 1851 1852 1853 1854 1855 1856 1857 1858 1859 1860 1861 1862 1863 1864 1865 1866 1867 1868 1869 1870 1871 1872 1873 1874 1875 1876 1877 1878 1879 1880 1881 1882\n"
         }
       ]
     },
@@ -3115,9 +3759,9 @@
         {
           "test_index": 3,
           "is_sample": false,
-          "description": "Ma trận không có yên ngựa",
+          "description": "Ma trận 2x2 có 1 điểm yên ngựa tại (1,1)",
           "input_data": "2 2\n1 2\n4 3\n",
-          "expected_output": "0\n"
+          "expected_output": "1\n"
         },
         {
           "test_index": 4,
@@ -3132,6 +3776,20 @@
           "description": "Ma trận đường chéo",
           "input_data": "3 3\n9 2 3\n4 8 6\n7 5 1\n",
           "expected_output": "0\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Ma trận tăng dần (chỉ có (3,0) là yên ngựa: min hàng 3 là 13, max cột 0 là 13)",
+          "input_data": "4 4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16\n",
+          "expected_output": "1\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Ma trận toàn 7 (tất cả 9 phần tử là yên ngựa)",
+          "input_data": "3 3\n7 7 7\n7 7 7\n7 7 7\n",
+          "expected_output": "9\n"
         }
       ]
     },
@@ -3189,6 +3847,20 @@
           "description": "Stress test chuỗi dài",
           "input_data": "5\n918273645\n",
           "expected_output": "9876\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Xóa 10 số tạo số lớn nhất",
+          "input_data": "10\n98765432109876543210\n",
+          "expected_output": "9987654321\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Xóa 15 số từ chuỗi 25 số",
+          "input_data": "15\n1234567890123456789012345\n",
+          "expected_output": "9789012345\n"
         }
       ]
     },
@@ -3238,14 +3910,28 @@
           "is_sample": false,
           "description": "Có số 0 ở giữa",
           "input_data": "2\n10200\n",
-          "expected_output": "0200\n"
+          "expected_output": "000\n"
         },
         {
           "test_index": 5,
           "is_sample": false,
           "description": "Chuỗi dài xoá nhiều số",
           "input_data": "4\n43214321\n",
-          "expected_output": "121\n"
+          "expected_output": "1321\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Xóa 10 số tạo số nhỏ nhất",
+          "input_data": "10\n98765432109876543210\n",
+          "expected_output": "0876543210\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Xóa 15 số từ chuỗi 25 số",
+          "input_data": "15\n9876543210987654321098765\n",
+          "expected_output": "0321098765\n"
         }
       ]
     },
@@ -3303,6 +3989,20 @@
           "description": "Ma trận 3 hàng 1 cột",
           "input_data": "3 1\n8\n2\n5\n",
           "expected_output": "2\n5\n8\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "Ma trận 3x4 sắp xếp xoắn ốc",
+          "input_data": "3 4\n12 11 10 9\n8 7 6 5\n4 3 2 1\n",
+          "expected_output": "1 2 3 4\n10 11 12 5\n9 8 7 6\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Ma trận 2x5 sắp xếp xoắn ốc",
+          "input_data": "2 5\n10 9 8 7 6\n5 4 3 2 1\n",
+          "expected_output": "1 2 3 4 5\n10 9 8 7 6\n"
         }
       ]
     },
@@ -3360,6 +4060,20 @@
           "description": "Stress test mảng lớn",
           "input_data": "5 4\n1 1 1 1 16\n",
           "expected_output": "4 1\n"
+        },
+        {
+          "test_index": 6,
+          "is_sample": false,
+          "description": "12 phần tử bằng 1 chia tỉ lệ 1:2 (4 và 8)",
+          "input_data": "12 2\n1 1 1 1 1 1 1 1 1 1 1 1\n",
+          "expected_output": "4 8\n"
+        },
+        {
+          "test_index": 7,
+          "is_sample": false,
+          "description": "Chia mảng tỉ lệ 1:4",
+          "input_data": "10 4\n2 2 2 2 8 8 8 8 8 8\n",
+          "expected_output": "NO\n"
         }
       ]
     }

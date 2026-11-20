@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+temp_exec/
+*.db
+*.pdf
+page_*.png
+crop_*.png
+page_notes_*.txt
+venv/
