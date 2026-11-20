@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Bí Kíp Luyện Rồng - Nền tảng Luyện Code Cá nhân{% endblock %}</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Be Vietnam Pro (Chuẩn Tiếng Việt) & JetBrains Mono (Code & Console) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,8 +18,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        mono: ['"Fira Code"', 'monospace'],
+                        sans: ['"Be Vietnam Pro"', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', '"Fira Code"', 'Consolas', 'monospace'],
                     },
                     colors: {
                         dragon: {
@@ -49,11 +49,56 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- KaTeX for Math rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-        onload="renderMathInElement(document.body);"></script>
+    <!-- KaTeX for Math rendering (Cloudflare CDN & AMD Isolation Protection) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+    <script>
+        // Bảo vệ KaTeX: Tạm thời vô hiệu hóa AMD define nếu có loader chạy trước
+        window._monacoDefine = window.define;
+        window.define = undefined;
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <script>
+        // Khôi phục lại window.define sau khi KaTeX đã gắn vào window
+        if (window._monacoDefine) {
+            window.define = window._monacoDefine;
+        }
+
+        // Hàm kích hoạt KaTeX tự động nhận diện cả $...$ (inline) và $$...$$ (khối)
+        window.triggerKaTeX = function(container) {
+            var target = container || document.body;
+            var renderFunc = window.renderMathInElement || (typeof renderMathInElement === 'function' ? renderMathInElement : null);
+            if (renderFunc) {
+                try {
+                    renderFunc(target, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+                        throwOnError: false,
+                        errorColor: '#f97316',
+                        strict: false
+                    });
+                } catch (e) {
+                    console.warn("KaTeX render error:", e);
+                }
+            } else {
+                console.warn("KaTeX renderMathInElement chưa sẵn sàng.");
+            }
+        };
+
+        // Kích hoạt render công thức toán ngay khi DOM sẵn sàng
+        if (document.readyState === 'loading') {
+            document.addEventListener("DOMContentLoaded", function() {
+                window.triggerKaTeX();
+            });
+        } else {
+            window.triggerKaTeX();
+        }
+    </script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">

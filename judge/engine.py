@@ -8,6 +8,7 @@ from typing import Dict, List, Any
 from config import (
     TEMP_EXEC_DIR,
     DEFAULT_TIMEOUT_SECONDS,
+    TIMEOUT_BY_LANGUAGE,
     MAX_OUTPUT_LENGTH,
     PYTHON_EXECUTABLE,
     C_COMPILER,
@@ -38,9 +39,16 @@ def truncate_text(text: str, max_len: int = 1500) -> str:
     return text
 
 
+def get_timeout_for_language(language: str) -> float:
+    """Lay gioi han thoi gian rieng biet cho tung ngon ngu lap trinh (C: 1.0s, Python: 2.0s)"""
+    lang = language.lower().strip()
+    return TIMEOUT_BY_LANGUAGE.get(lang, DEFAULT_TIMEOUT_SECONDS)
+
+
 def run_code_once(command: List[str], input_data: str, timeout: float = DEFAULT_TIMEOUT_SECONDS, cwd: str = None) -> Dict[str, Any]:
     """
     Thuc thi chuong trinh voi mot bo input_data cu the va do thoi gian.
+    Chi tinh thoi gian chay cua file thuc thi, khong tinh thoi gian bien dich.
     """
     start_time = time.perf_counter()
     try:
@@ -90,6 +98,7 @@ def run_code_once(command: List[str], input_data: str, timeout: float = DEFAULT_
 def run_custom_test(code: str, language: str, custom_input: str) -> Dict[str, Any]:
     """
     Chay thu ma nguon voi input tuy chon cua nguoi dung (Nut 'Run Code').
+    Ap dung dung timeout rieng theo ngon ngu (C: 1.0s, Python: 2.0s).
     """
     # 1. Kiem tra bao mat
     is_safe, sec_msg = check_code_safety(code, language)
@@ -103,20 +112,22 @@ def run_custom_test(code: str, language: str, custom_input: str) -> Dict[str, An
             "duration_ms": 0
         }
 
-    # 2. Tao thu muc thuc thi doc lap
+    # 2. Tao thu muc chay tam thoi
     run_id = f"run_{uuid.uuid4().hex}"
     work_dir = os.path.join(TEMP_EXEC_DIR, run_id)
     os.makedirs(work_dir, exist_ok=True)
 
     lang = language.lower().strip()
+    timeout_sec = get_timeout_for_language(lang)
+
     try:
         if lang in ("c", "gcc"):
-            c_file = os.path.join(work_dir, "solution.c")
-            exe_file = os.path.join(work_dir, "solution.exe")
+            c_file = os.path.join(work_dir, "code.c")
+            exe_file = os.path.join(work_dir, "code.exe")
             with open(c_file, "w", encoding="utf-8") as f:
                 f.write(code)
 
-            # Bien dich C
+            # Biên dịch bằng GCC (thời gian này tách biệt, không tính vào thời gian thực thi)
             compile_cmd = [C_COMPILER] + C_FLAGS + [c_file, "-o", exe_file]
             comp_res = subprocess.run(compile_cmd, capture_output=True, text=True, cwd=work_dir)
             if comp_res.returncode != 0:
@@ -126,12 +137,13 @@ def run_custom_test(code: str, language: str, custom_input: str) -> Dict[str, An
                     "message": "Lỗi biên dịch (Compilation Error)",
                     "stdout": "",
                     "stderr": comp_res.stderr,
-                    "duration_ms": 0
+                    "duration_ms": 0,
+                    "timeout_sec": timeout_sec
                 }
             run_cmd = [exe_file]
 
         elif lang in ("python", "python3", "py"):
-            py_file = os.path.join(work_dir, "solution.py")
+            py_file = os.path.join(work_dir, "code.py")
             with open(py_file, "w", encoding="utf-8") as f:
                 f.write(code)
             run_cmd = [PYTHON_EXECUTABLE, "-u", py_file]
@@ -139,42 +151,57 @@ def run_custom_test(code: str, language: str, custom_input: str) -> Dict[str, An
         else:
             return {
                 "success": False,
-                "verdict": "ERROR",
-                "message": f"Ngôn ngữ '{language}' không được hỗ trợ",
+                "verdict": "UNSUPPORTED_LANGUAGE",
+                "message": f"Ngôn ngữ '{language}' chưa được hỗ trợ",
                 "stdout": "",
                 "stderr": "",
-                "duration_ms": 0
+                "duration_ms": 0,
+                "timeout_sec": timeout_sec
             }
 
-        # Thuc thi
-        exec_res = run_code_once(run_cmd, custom_input, timeout=DEFAULT_TIMEOUT_SECONDS, cwd=work_dir)
+        # 3. Chạy file thực thi với input người dùng và đo thời gian thực tế
+        exec_res = run_code_once(run_cmd, custom_input, timeout=timeout_sec, cwd=work_dir)
 
         if exec_res["is_tle"]:
             verdict = "TLE"
+            msg = f"Time Limit Exceeded: Mã nguồn chạy quá giới hạn thời gian {timeout_sec}s cho phép của {lang.upper()}."
         elif exec_res["returncode"] != 0:
             verdict = "RTE"
+            msg = f"Runtime Error (Mã thoát {exec_res['returncode']})"
         else:
             verdict = "SUCCESS"
+            msg = "Thực thi thành công."
 
         return {
-            "success": verdict == "SUCCESS",
+            "success": (verdict == "SUCCESS"),
             "verdict": verdict,
-            "message": "Chạy thử hoàn tất",
-            "stdout": exec_res["stdout"],
-            "stderr": exec_res["stderr"],
-            "duration_ms": exec_res["duration_ms"]
+            "message": msg,
+            "stdout": truncate_text(exec_res["stdout"], 3000),
+            "stderr": truncate_text(exec_res["stderr"], 3000),
+            "duration_ms": exec_res["duration_ms"],
+            "timeout_sec": timeout_sec
         }
 
     finally:
         shutil.rmtree(work_dir, ignore_errors=True)
 
 
-def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]]) -> Dict[str, Any]:
+def judge_submission(
+    code: str,
+    language: str,
+    test_cases: List[Dict[str, Any]]
+) -> Dict[str, Any]:
     """
-    Cham diem toan bo bo test case cho bai nop (Nut 'Submit Code').
-    Tra ve ket qua chi tiet tung test case va diem tong.
+    He thong cham diem (Judge Engine) tu dong:
+    - Áp dụng thời gian giới hạn nghiêm ngặt riêng theo ngôn ngữ: C = 1.0s, Python = 2.0s.
+    - Thời gian C chỉ đo thời gian chạy của file thực thi solution.exe, KHÔNG tính thời gian biên dịch gcc.
+    - Khi một test case bị TLE, test case đó nhận 0 điểm, nhưng hệ thống VẪN TIẾP TỤC CHẠY các test cases còn lại.
+    - Hiển thị chi tiết từng test case: AC, WA, TLE (kèm thời gian thực tế / giới hạn cho phép), RTE.
     """
-    # 1. Kiem tra bao mat
+    lang = language.lower().strip()
+    timeout_sec = get_timeout_for_language(lang)
+
+    # 1. Kiem tra bao mat AST / regex
     is_safe, sec_msg = check_code_safety(code, language)
     if not is_safe:
         return {
@@ -183,16 +210,16 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
             "passed_count": 0,
             "total_count": len(test_cases),
             "max_time_ms": 0,
+            "timeout_sec": timeout_sec,
             "message": sec_msg,
             "test_results": []
         }
 
-    # 2. Tao thu muc thuc thi
+    # 2. Tao thu muc thuc thi doc lap
     run_id = f"sub_{uuid.uuid4().hex}"
     work_dir = os.path.join(TEMP_EXEC_DIR, run_id)
     os.makedirs(work_dir, exist_ok=True)
 
-    lang = language.lower().strip()
     try:
         if lang in ("c", "gcc"):
             c_file = os.path.join(work_dir, "solution.c")
@@ -200,17 +227,18 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
             with open(c_file, "w", encoding="utf-8") as f:
                 f.write(code)
 
-            # Bien dich bang GCC
+            # Biên dịch bằng GCC riêng biệt (không tính vào thời gian của test case)
             compile_cmd = [C_COMPILER] + C_FLAGS + [c_file, "-o", exe_file]
             comp_res = subprocess.run(compile_cmd, capture_output=True, text=True, cwd=work_dir)
             if comp_res.returncode != 0:
-                # Compilation Error
+                # Lỗi biên dịch (Compilation Error)
                 return {
                     "status": "CE",
                     "score": 0,
                     "passed_count": 0,
                     "total_count": len(test_cases),
                     "max_time_ms": 0,
+                    "timeout_sec": timeout_sec,
                     "message": "Lỗi biên dịch (Compilation Error)",
                     "compiler_output": comp_res.stderr,
                     "test_results": []
@@ -230,15 +258,17 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
                 "passed_count": 0,
                 "total_count": len(test_cases),
                 "max_time_ms": 0,
+                "timeout_sec": timeout_sec,
                 "message": f"Ngôn ngữ '{language}' không được hỗ trợ",
                 "test_results": []
             }
 
-        # 3. Chay tung test case
+        # 3. Chay qua toan bo danh sach test cases
         test_results = []
         passed_count = 0
         max_time_ms = 0.0
         first_failure_verdict = None
+        has_tle = False
 
         for idx, tc in enumerate(test_cases, start=1):
             tc_input = tc.get("input_data", "")
@@ -246,7 +276,8 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
             tc_desc = tc.get("description", f"Test case #{idx}")
             is_sample = tc.get("is_sample", False)
 
-            exec_res = run_code_once(run_cmd, tc_input, timeout=DEFAULT_TIMEOUT_SECONDS, cwd=work_dir)
+            # Thực thi và đo thời gian độc lập của từng test case
+            exec_res = run_code_once(run_cmd, tc_input, timeout=timeout_sec, cwd=work_dir)
             exec_time = exec_res["duration_ms"]
             max_time_ms = max(max_time_ms, exec_time)
 
@@ -255,7 +286,8 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
 
             if exec_res["is_tle"]:
                 tc_verdict = "TLE"
-                message = f"Vượt quá thời gian ({DEFAULT_TIMEOUT_SECONDS}s)"
+                has_tle = True
+                message = f"Vượt quá thời gian giới hạn ({timeout_sec}s). Thời gian chạy: {exec_time} ms / Giới hạn: {int(timeout_sec * 1000)} ms"
             elif exec_res["returncode"] != 0:
                 tc_verdict = "RTE"
                 message = user_err if user_err else f"Runtime Error (Mã thoát {exec_res['returncode']})"
@@ -279,6 +311,7 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
                 "is_sample": is_sample,
                 "verdict": tc_verdict,
                 "execution_time_ms": exec_time,
+                "timeout_ms": int(timeout_sec * 1000),
                 "message": message,
                 "input_preview": truncate_text(tc_input, 200),
                 "expected_preview": truncate_text(tc_expected, 200),
@@ -294,8 +327,12 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
             final_status = "AC"
             final_message = f"Chúc mừng! Bạn đã vượt qua tất cả {total_tests}/{total_tests} test cases."
         else:
-            final_status = first_failure_verdict if first_failure_verdict else "WA"
-            final_message = f"Vượt qua {passed_count}/{total_tests} test cases ({score} điểm)."
+            # Nếu có test bị TLE thì ưu tiên báo TLE để người dùng biết code bị chậm
+            if has_tle:
+                final_status = "TLE"
+            else:
+                final_status = first_failure_verdict if first_failure_verdict else "WA"
+            final_message = f"Vượt qua {passed_count}/{total_tests} test cases ({score} điểm). Giới hạn thời gian {lang.upper()}: {timeout_sec}s."
 
         return {
             "status": final_status,
@@ -303,6 +340,7 @@ def judge_submission(code: str, language: str, test_cases: List[Dict[str, Any]])
             "passed_count": passed_count,
             "total_count": total_tests,
             "max_time_ms": max_time_ms,
+            "timeout_sec": timeout_sec,
             "message": final_message,
             "test_results": test_results
         }

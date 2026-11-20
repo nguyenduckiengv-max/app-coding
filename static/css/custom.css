@@ -19,9 +19,19 @@
     background: #484f58;
 }
 
-/* Code fonts */
+/* Vietnamese typography and Code font */
+body, button, input, select, textarea {
+    font-family: 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+#problemDescContent, .problem-desc {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 1.65;
+}
+
 code, pre, .font-mono {
-    font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace;
 }
 
 /* Animations */
@@ -55,8 +65,48 @@ code, pre, .font-mono {
     color: #f3f4f6;
 }
 
-/* KaTeX formula readability */
+/* ==================== KATEX MATH FORMULA STYLING & FONT PROTECTION ==================== */
+/* Đảm bảo KaTeX sử dụng đúng bộ font toán học chuyên dụng, không bị font chữ thường ghi đè */
 .katex {
-    font-size: 1.05em;
-    color: #fef08a;
+    font-size: 1.08em;
+    line-height: 1.25;
+    text-rendering: auto;
+    color: #fef08a; /* Màu vàng sáng nhẹ nổi bật trên nền tối Dark Mode */
+}
+
+.katex .mathnormal {
+    font-family: KaTeX_Math, 'Times New Roman', serif !important;
+}
+
+.katex .mathrm {
+    font-family: KaTeX_Main, 'Times New Roman', serif !important;
+}
+
+.katex .mathbf {
+    font-family: KaTeX_Main, 'Times New Roman', serif !important;
+    font-weight: bold !important;
+}
+
+.katex .amsrm {
+    font-family: KaTeX_AMS, 'Times New Roman', serif !important;
+}
+
+.katex .mord, .katex .mbin, .katex .mrel, .katex .mopen, .katex .mclose, .katex .mpunct {
+    font-family: KaTeX_Main, KaTeX_Math, 'Times New Roman', serif !important;
+}
+
+/* Khối công thức toán đặt giữa dòng ($$...$$) */
+.katex-display {
+    margin: 1rem 0 !important;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: rgba(22, 27, 34, 0.7);
+    border: 1px solid #30363d;
+    border-radius: 0.5rem;
+}
+
+.katex-display > .katex {
+    text-align: center;
+    white-space: nowrap;
 }
